@@ -1,0 +1,41 @@
+﻿<Window x:Class="DungeonCrawlerGame.Pages.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        xmlns:local="clr-namespace:DungeonCrawlerGame.Pages"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:s="https://github.com/canton7/Stylet"
+        x:Name="Window"
+        Title="Dungeon Crawler"
+        Width="800"
+        Height="639"
+        d:DataContext="{d:DesignInstance local:ShellViewModel}"
+        ResizeMode="CanMinimize"
+        mc:Ignorable="d">
+
+    <Window.InputBindings>
+        <KeyBinding Key="F11"
+                    Command="{s:Action ToggleFullscreen}"
+                    CommandParameter="{Binding ElementName=Window}" />
+        <KeyBinding Key="Esc" Command="{s:Action OnEscapePressed}" />
+    </Window.InputBindings>
+
+    <Border Background="Black">
+        <Viewbox MinWidth="800"
+                 MinHeight="600"
+                 Stretch="Uniform">
+            <Grid Width="800" Height="600">
+                <Grid.Background>
+                    <VisualBrush Stretch="Uniform">
+                        <VisualBrush.Visual>
+                            <Image gif:AnimationBehavior.SourceUri="/DungeonCrawlerGame;component/Assets/mainmenu_background.gif" />
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.Background>
+
+                <ContentControl s:View.Model="{Binding ActiveItem}" />
+            </Grid>
+        </Viewbox>
+    </Border>
+</Window>

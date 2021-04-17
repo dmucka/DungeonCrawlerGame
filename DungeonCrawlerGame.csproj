@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    
+    <RootNamespace>DungeonCrawlerGame</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\mainmenu_background.gif" />
+    <None Remove="Assets\ui.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\mainmenu_background.gif">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\ui.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Stylet" Version="1.3.6.0" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.0.0-alpha.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\ShellView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+</Project>
