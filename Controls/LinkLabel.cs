@@ -1,32 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Diagnostics;
+using System.Windows.Controls.Primitives;
 
 namespace DungeonCrawlerGame.Controls
 {
-    public class LinkLabel : Label
+    public class LinkLabel : ButtonBase
     {
+        static LinkLabel()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkLabel), new FrameworkPropertyMetadata(typeof(LinkLabel)));
+        }
+
         public string Uri
         {
-            get { return (string)this.GetValue(UriProperty); }
-            set { this.SetValue(UriProperty, value); }
+            get
+            {
+                return (string)this.GetValue(UriProperty);
+            }
+            set
+            {
+                this.SetValue(UriProperty, value);
+            }
         }
 
         // Using a DependencyProperty as the backing store for Uri.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UriProperty =
             DependencyProperty.Register("Uri", typeof(string), typeof(LinkLabel), new PropertyMetadata(string.Empty));
 
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        protected override void OnClick()
         {
-            base.OnMouseLeftButtonUp(e);
+            base.OnClick();
 
             if (!string.IsNullOrWhiteSpace(this.Uri))
             {

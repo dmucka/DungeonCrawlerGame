@@ -1,6 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="WhiteTransparentBrush"
                      Opacity="0.8"
@@ -13,4 +11,7 @@
                             Softness="0.1"
                             Color="Black" />
 
+    <Style TargetType="ContentControl">
+        <Setter Property="Focusable" Value="False" />
+    </Style>
 </ResourceDictionary>

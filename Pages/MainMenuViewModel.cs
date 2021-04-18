@@ -1,5 +1,5 @@
-﻿using Stylet;
-using System.Windows;
+﻿using System.Windows;
+using Stylet;
 
 namespace DungeonCrawlerGame.Pages
 {

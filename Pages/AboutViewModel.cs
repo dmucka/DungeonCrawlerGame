@@ -1,8 +1,4 @@
-﻿using Stylet;
-using System.Diagnostics;
-using System;
-using DungeonCrawlerGame.Interfaces;
-using DungeonCrawlerGame.Classes;
+﻿using DungeonCrawlerGame.Classes;
 
 namespace DungeonCrawlerGame.Pages
 {

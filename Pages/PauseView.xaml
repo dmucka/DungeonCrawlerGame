@@ -6,6 +6,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:s="https://github.com/canton7/Stylet"
              d:DataContext="{d:DesignInstance local:PauseViewModel}"
+             d:Height="600"
+             d:Width="800"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +26,7 @@
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Button Command="{s:Action OpenSaveGameView}">Save Game</Button>
+            <Button Command="{s:Action OpenSaveGameView}">Save</Button>
             <Button Command="{s:Action ReturnToMainMenu}">Exit to main menu</Button>
         </StackPanel>
 

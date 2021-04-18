@@ -1,13 +1,15 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Input;
 using Stylet;
 
 namespace DungeonCrawlerGame.Pages
 {
     public class ShellViewModel : Conductor<IScreen>.StackNavigation
     {
-        public bool IsFullscreen { get; private set; }
+        public bool IsFullscreen
+        {
+            get; private set;
+        }
 
         readonly private MainMenuViewModel _mainMenuViewModel;
         readonly private PauseViewModel _pauseViewModel;
@@ -45,19 +47,28 @@ namespace DungeonCrawlerGame.Pages
             }
         }
 
+        public void OpenPauseView()
+        {
+            this.ActivateItem(_pauseViewModel);
+        }
+
         public void OnEscapePressed()
         {
             if (this.ActiveItem is GameViewModel)
             {
-                this.ActivateItem(_pauseViewModel);
+                this.OpenPauseView();
             }
         }
 
-#if DEBUG
-        public override void ActivateItem(IScreen item)
+        protected override void OnInitialActivate()
         {
-            base.ActivateItem(item);
+            base.OnInitialActivate();
+
+            InputManager.Current.PostProcessInput += (sender, e) =>
+            {
+                if (e.StagingItem.Input is MouseButtonEventArgs args && args.LeftButton == MouseButtonState.Released)
+                    FocusManager.SetFocusedElement((this.View as Window), null);
+            };
         }
-#endif
     }
 }

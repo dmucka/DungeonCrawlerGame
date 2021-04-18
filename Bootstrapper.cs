@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-using System;
-using DungeonCrawlerGame.Pages;
+﻿using DungeonCrawlerGame.Pages;
 using Stylet;
 using StyletIoC;
 

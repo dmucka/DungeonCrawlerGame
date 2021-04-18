@@ -8,7 +8,7 @@
         xmlns:s="https://github.com/canton7/Stylet"
         x:Name="Window"
         Title="Dungeon Crawler"
-        Width="800"
+        Width="816"
         Height="639"
         d:DataContext="{d:DesignInstance local:ShellViewModel}"
         ResizeMode="CanMinimize"
@@ -21,21 +21,25 @@
         <KeyBinding Key="Esc" Command="{s:Action OnEscapePressed}" />
     </Window.InputBindings>
 
-    <Border Background="Black">
+    <Border MinWidth="800"
+            MinHeight="600"
+            Background="Black">
         <Viewbox MinWidth="800"
                  MinHeight="600"
                  Stretch="Uniform">
-            <Grid Width="800" Height="600">
-                <Grid.Background>
-                    <VisualBrush Stretch="Uniform">
-                        <VisualBrush.Visual>
-                            <Image gif:AnimationBehavior.SourceUri="/DungeonCrawlerGame;component/Assets/mainmenu_background.gif" />
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Grid.Background>
+            <AdornerDecorator>
+                <Grid MinWidth="800" MinHeight="600">
+                    <Grid.Background>
+                        <VisualBrush Stretch="Uniform">
+                            <VisualBrush.Visual>
+                                <Image gif:AnimationBehavior.SourceUri="/DungeonCrawlerGame;component/Assets/mainmenu_background.gif" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Grid.Background>
 
-                <ContentControl s:View.Model="{Binding ActiveItem}" />
-            </Grid>
+                    <ContentControl s:View.Model="{Binding ActiveItem}" />
+                </Grid>
+            </AdornerDecorator>
         </Viewbox>
     </Border>
 </Window>

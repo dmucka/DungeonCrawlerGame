@@ -7,5 +7,10 @@ namespace DungeonCrawlerGame.Pages
         public GameViewModel()
         {
         }
+
+        public void OpenPauseView()
+        {
+            (this.Parent as ShellViewModel).OpenPauseView();
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using DungeonCrawlerGame.Classes;
-using Stylet;
 
 namespace DungeonCrawlerGame.Pages
 {
