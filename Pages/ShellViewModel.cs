@@ -1,62 +1,56 @@
-﻿using System.Windows;
+﻿using Stylet;
+using System.Windows;
 using System.Windows.Input;
-using Stylet;
 
 namespace DungeonCrawlerGame.Pages
 {
     public class ShellViewModel : Conductor<IScreen>.StackNavigation
     {
-        public bool IsFullscreen
-        {
-            get; private set;
-        }
+        public bool IsFullscreen { get; private set; }
 
-        readonly private MainMenuViewModel _mainMenuViewModel;
-        readonly private PauseViewModel _pauseViewModel;
+        private readonly MainMenuViewModel _mainMenuViewModel;
+        private readonly PauseViewModel _pauseViewModel;
 
         public ShellViewModel(MainMenuViewModel mainMenuViewModel, PauseViewModel pauseViewModel)
         {
             _mainMenuViewModel = mainMenuViewModel;
             _pauseViewModel = pauseViewModel;
 
-            this.IsFullscreen = false;
-            this.ActivateItem(_mainMenuViewModel);
+            IsFullscreen = false;
+            ActivateItem(_mainMenuViewModel);
         }
 
         public void ReturnToMainMenu()
         {
-            while (this.ActiveItem is not MainMenuViewModel)
-                this.GoBack();
+            while (ActiveItem is not MainMenuViewModel)
+                GoBack();
         }
 
         public void ToggleFullscreen(Window window)
         {
-            if (!this.IsFullscreen)
+            if (!IsFullscreen)
             {
                 window.WindowStyle = WindowStyle.None;
                 window.Topmost = true;
                 window.WindowState = WindowState.Maximized;
-                this.IsFullscreen = true;
+                IsFullscreen = true;
             }
             else
             {
                 window.WindowStyle = WindowStyle.SingleBorderWindow;
                 window.Topmost = false;
                 window.WindowState = WindowState.Normal;
-                this.IsFullscreen = false;
+                IsFullscreen = false;
             }
         }
 
-        public void OpenPauseView()
-        {
-            this.ActivateItem(_pauseViewModel);
-        }
+        public void OpenPauseView() => ActivateItem(_pauseViewModel);
 
         public void OnEscapePressed()
         {
-            if (this.ActiveItem is GameViewModel)
+            if (ActiveItem is GameViewModel)
             {
-                this.OpenPauseView();
+                OpenPauseView();
             }
         }
 
@@ -67,7 +61,7 @@ namespace DungeonCrawlerGame.Pages
             InputManager.Current.PostProcessInput += (sender, e) =>
             {
                 if (e.StagingItem.Input is MouseButtonEventArgs args && args.LeftButton == MouseButtonState.Released)
-                    FocusManager.SetFocusedElement((this.View as Window), null);
+                    FocusManager.SetFocusedElement((View as Window), null);
             };
         }
     }

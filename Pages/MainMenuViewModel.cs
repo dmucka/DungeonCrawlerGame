@@ -1,14 +1,14 @@
-﻿using System.Windows;
-using Stylet;
+﻿using Stylet;
+using System.Windows;
 
 namespace DungeonCrawlerGame.Pages
 {
     public class MainMenuViewModel : Screen
     {
-        readonly private AboutViewModel _aboutViewModel;
-        readonly private LoadGameViewModel _loadGameViewModel;
-        readonly private SettingsViewModel _settingsViewModel;
-        readonly private GameViewModel _gameViewModel;
+        private readonly AboutViewModel _aboutViewModel;
+        private readonly LoadGameViewModel _loadGameViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
+        private readonly GameViewModel _gameViewModel;
 
         public MainMenuViewModel(AboutViewModel aboutViewModel, LoadGameViewModel loadGameViewModel, SettingsViewModel settingsViewModel, GameViewModel gameViewModel)
         {
@@ -18,29 +18,14 @@ namespace DungeonCrawlerGame.Pages
             _gameViewModel = gameViewModel;
         }
 
-        public void OpenAboutView()
-        {
-            (this.Parent as ShellViewModel).ActivateItem(_aboutViewModel);
-        }
+        public void OpenAboutView() => (Parent as ShellViewModel).ActivateItem(_aboutViewModel);
 
-        public void OpenLoadGameView()
-        {
-            (this.Parent as ShellViewModel).ActivateItem(_loadGameViewModel);
-        }
+        public void OpenLoadGameView() => (Parent as ShellViewModel).ActivateItem(_loadGameViewModel);
 
-        public void OpenNewGameView()
-        {
-            (this.Parent as ShellViewModel).ActivateItem(_gameViewModel);
-        }
+        public void OpenNewGameView() => (Parent as ShellViewModel).ActivateItem(_gameViewModel);
 
-        public void OpenSettingsView()
-        {
-            (this.Parent as ShellViewModel).ActivateItem(_settingsViewModel);
-        }
+        public void OpenSettingsView() => (Parent as ShellViewModel).ActivateItem(_settingsViewModel);
 
-        public void Exit()
-        {
-            Application.Current.Shutdown();
-        }
+        public void Exit() => Application.Current.Shutdown();
     }
 }

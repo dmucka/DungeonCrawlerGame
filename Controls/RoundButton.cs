@@ -18,14 +18,8 @@ namespace DungeonCrawlerGame.Controls
 
         public RoundButtonIcon Icon
         {
-            get
-            {
-                return (RoundButtonIcon)this.GetValue(IconProperty);
-            }
-            set
-            {
-                this.SetValue(IconProperty, value);
-            }
+            get => (RoundButtonIcon)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...

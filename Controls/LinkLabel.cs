@@ -13,14 +13,8 @@ namespace DungeonCrawlerGame.Controls
 
         public string Uri
         {
-            get
-            {
-                return (string)this.GetValue(UriProperty);
-            }
-            set
-            {
-                this.SetValue(UriProperty, value);
-            }
+            get => (string)GetValue(UriProperty);
+            set => SetValue(UriProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Uri.  This enables animation, styling, binding, etc...
@@ -31,9 +25,9 @@ namespace DungeonCrawlerGame.Controls
         {
             base.OnClick();
 
-            if (!string.IsNullOrWhiteSpace(this.Uri))
+            if (!string.IsNullOrWhiteSpace(Uri))
             {
-                Process.Start("explorer", this.Uri);
+                Process.Start("explorer", Uri);
             }
         }
     }

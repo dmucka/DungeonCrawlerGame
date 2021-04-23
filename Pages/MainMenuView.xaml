@@ -32,7 +32,6 @@
                     Command="{s:Action OpenSettingsView}"
                     Content="Settings" />
             <Button Command="{s:Action Exit}" Content="Exit" />
-            <controls:RoundButton Icon="MainMenu" />
         </StackPanel>
 
         <controls:LinkLabel Grid.Row="1"

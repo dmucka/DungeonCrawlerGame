@@ -5,9 +5,6 @@ namespace DungeonCrawlerGame.Classes
 {
     public class ReturnableScreen : Screen, IReturnableScreen
     {
-        public void ReturnView()
-        {
-            this.RequestClose();
-        }
+        public void ReturnView() => RequestClose();
     }
 }

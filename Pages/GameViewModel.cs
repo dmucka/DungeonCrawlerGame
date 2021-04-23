@@ -8,9 +8,6 @@ namespace DungeonCrawlerGame.Pages
         {
         }
 
-        public void OpenPauseView()
-        {
-            (this.Parent as ShellViewModel).OpenPauseView();
-        }
+        public void OpenPauseView() => (Parent as ShellViewModel).OpenPauseView();
     }
 }

@@ -17,10 +17,7 @@ namespace DungeonCrawlerGame
         }
 
 #if DEBUG
-        protected override void OnStart()
-        {
-            Stylet.Logging.LogManager.Enabled = true;
-        }
+        protected override void OnStart() => Stylet.Logging.LogManager.Enabled = true;
 #endif
     }
 }
