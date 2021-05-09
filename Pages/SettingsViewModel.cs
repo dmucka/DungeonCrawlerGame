@@ -1,4 +1,6 @@
 ﻿using DungeonCrawlerGame.Classes;
+using DungeonCrawlerGame.Services;
+using StyletIoC;
 
 namespace DungeonCrawlerGame.Pages
 {
@@ -7,5 +9,8 @@ namespace DungeonCrawlerGame.Pages
         public SettingsViewModel()
         {
         }
+
+        [Inject]
+        public SettingsService Settings { get; set; }
     }
 }

@@ -16,8 +16,8 @@
 
     <Window.InputBindings>
         <KeyBinding Key="F11"
-                    Command="{s:Action ToggleFullscreen}"
-                    CommandParameter="{Binding ElementName=Window}" />
+                    s:View.ActionTarget="{Binding Settings}"
+                    Command="{s:Action ToggleFullscreen}" />
         <KeyBinding Key="Esc" Command="{s:Action OnEscapePressed}" />
     </Window.InputBindings>
 

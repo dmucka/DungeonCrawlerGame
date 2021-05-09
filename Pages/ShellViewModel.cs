@@ -1,4 +1,6 @@
-﻿using Stylet;
+﻿using DungeonCrawlerGame.Services;
+using Stylet;
+using StyletIoC;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,8 +8,6 @@ namespace DungeonCrawlerGame.Pages
 {
     public class ShellViewModel : Conductor<IScreen>.StackNavigation
     {
-        public bool IsFullscreen { get; private set; }
-
         private readonly MainMenuViewModel _mainMenuViewModel;
         private readonly PauseViewModel _pauseViewModel;
 
@@ -16,32 +16,16 @@ namespace DungeonCrawlerGame.Pages
             _mainMenuViewModel = mainMenuViewModel;
             _pauseViewModel = pauseViewModel;
 
-            IsFullscreen = false;
             ActivateItem(_mainMenuViewModel);
         }
+
+        [Inject]
+        public SettingsService Settings { get; set; }
 
         public void ReturnToMainMenu()
         {
             while (ActiveItem is not MainMenuViewModel)
                 GoBack();
-        }
-
-        public void ToggleFullscreen(Window window)
-        {
-            if (!IsFullscreen)
-            {
-                window.WindowStyle = WindowStyle.None;
-                window.Topmost = true;
-                window.WindowState = WindowState.Maximized;
-                IsFullscreen = true;
-            }
-            else
-            {
-                window.WindowStyle = WindowStyle.SingleBorderWindow;
-                window.Topmost = false;
-                window.WindowState = WindowState.Normal;
-                IsFullscreen = false;
-            }
         }
 
         public void OpenPauseView() => ActivateItem(_pauseViewModel);
@@ -58,6 +42,7 @@ namespace DungeonCrawlerGame.Pages
         {
             base.OnInitialActivate();
 
+            // unfocus any button on mouse click anywhere on window
             InputManager.Current.PostProcessInput += (sender, e) =>
             {
                 if (e.StagingItem.Input is MouseButtonEventArgs args && args.LeftButton == MouseButtonState.Released)
