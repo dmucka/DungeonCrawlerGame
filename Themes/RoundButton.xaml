@@ -2,31 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DungeonCrawlerGame.Controls">
 
-    <Image x:Key="RoundButtonImage">
-        <Image.Source>
-            <CroppedBitmap Source="/Assets/ui.png" SourceRect="64,105,14,14" />
-        </Image.Source>
-    </Image>
-    <Image x:Key="RoundButtonMouseOverImage">
-        <Image.Source>
-            <CroppedBitmap Source="/Assets/ui.png" SourceRect="64,121,14,14" />
-        </Image.Source>
-    </Image>
-    <Image x:Key="RoundButtonClickedImage">
-        <Image.Source>
-            <CroppedBitmap Source="/Assets/ui.png" SourceRect="64,137,14,14" />
-        </Image.Source>
-    </Image>
+    <local:MappedImage x:Key="RoundButtonImage" Location="64,105,14,14" />
+    <local:MappedImage x:Key="RoundButtonMouseOverImage" Location="64,121,14,14" />
+    <local:MappedImage x:Key="RoundButtonClickedImage" Location="64,137,14,14" />
+
+    <local:MappedImage x:Key="RoundButtonMainMenuIconImage" Location="81,105,14,14" />
 
     <VisualBrush x:Key="RoundButtonImageVisualBrush" Visual="{StaticResource RoundButtonImage}" />
     <VisualBrush x:Key="RoundButtonMouseOverImageVisualBrush" Visual="{StaticResource RoundButtonMouseOverImage}" />
     <VisualBrush x:Key="RoundButtonClickedImageVisualBrush" Visual="{StaticResource RoundButtonClickedImage}" />
-
-    <Image x:Key="RoundButtonMainMenuIconImage">
-        <Image.Source>
-            <CroppedBitmap Source="/Assets/ui.png" SourceRect="81,105,14,14" />
-        </Image.Source>
-    </Image>
 
     <VisualBrush x:Key="RoundButtonMainMenuIconImageVisualBrush" Visual="{StaticResource RoundButtonMainMenuIconImage}" />
 
