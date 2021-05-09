@@ -9,6 +9,9 @@ namespace DungeonCrawlerGame.Controls
         MainMenu
     }
 
+    /// <summary>
+    /// Round themed button that contains an icon.
+    /// </summary>
     public class RoundButton : ButtonBase
     {
         static RoundButton()

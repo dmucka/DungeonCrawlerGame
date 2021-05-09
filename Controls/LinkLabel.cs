@@ -4,6 +4,9 @@ using System.Windows.Controls.Primitives;
 
 namespace DungeonCrawlerGame.Controls
 {
+    /// <summary>
+    /// Clickable label that optionally opens an URI link.
+    /// </summary>
     public class LinkLabel : ButtonBase
     {
         static LinkLabel()
@@ -23,12 +26,12 @@ namespace DungeonCrawlerGame.Controls
 
         protected override void OnClick()
         {
-            base.OnClick();
-
             if (!string.IsNullOrWhiteSpace(Uri))
             {
                 Process.Start("explorer", Uri);
             }
+
+            base.OnClick();
         }
     }
 }
