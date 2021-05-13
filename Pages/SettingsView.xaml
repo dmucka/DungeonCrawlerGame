@@ -7,6 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:s="https://github.com/canton7/Stylet"
              d:DataContext="{d:DesignInstance local:SettingsViewModel}"
+             PreviewKeyDown="{s:Action OnPreviewKeyDown}"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -54,7 +55,7 @@
                                Margin="0,0,5,0"
                                VerticalAlignment="Center"
                                Text="Up" />
-                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.UpKey}" />
+                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.UpKey, Mode=TwoWay}" />
                 </StackPanel>
             </Label>
 
@@ -64,7 +65,7 @@
                                Margin="0,0,5,0"
                                VerticalAlignment="Center"
                                Text="Down" />
-                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.DownKey}" />
+                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.DownKey, Mode=TwoWay}" />
                 </StackPanel>
             </Label>
 
@@ -74,7 +75,7 @@
                                Margin="0,0,5,0"
                                VerticalAlignment="Center"
                                Text="Left" />
-                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.LeftKey}" />
+                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.LeftKey, Mode=TwoWay}" />
                 </StackPanel>
             </Label>
 
@@ -84,7 +85,7 @@
                                Margin="0,0,5,0"
                                VerticalAlignment="Center"
                                Text="Right" />
-                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.RightKey}" />
+                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.RightKey, Mode=TwoWay}" />
                 </StackPanel>
             </Label>
 
@@ -94,7 +95,7 @@
                                Margin="0,0,5,0"
                                VerticalAlignment="Center"
                                Text="Attack" />
-                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.AttackKey}" />
+                    <controls:KeybindButton VerticalAlignment="Center" Keybind="{Binding Settings.AttackKey, Mode=TwoWay}" />
                 </StackPanel>
             </Label>
         </StackPanel>

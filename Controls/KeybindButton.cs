@@ -41,7 +41,10 @@ namespace DungeonCrawlerGame.Controls
         private void OnSecondClick(object sender, PreProcessInputEventArgs e)
         {
             if (e.StagingItem.Input is MouseButtonEventArgs)
+            {
                 CleanUp();
+                return;
+            }
         }
 
         /// <summary>
@@ -50,30 +53,22 @@ namespace DungeonCrawlerGame.Controls
         protected override void OnClick()
         {
             IsCapturingInput = true;
-
             InputManager.Current.PreProcessInput += OnSecondClick;
-
-            base.OnClick();
         }
 
-        /// <summary>
-        /// Callback for key selection after the button is clicked.
-        /// </summary>
-        protected override void OnKeyUp(KeyEventArgs e)
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
         {
             if (!IsCapturingInput)
                 return;
 
             if (e.Key == Key.Escape)
             {
-                IsCapturingInput = false;
+                CleanUp();
                 return;
             }
 
             Keybind = e.Key;
-
             CleanUp();
-            base.OnKeyUp(e);
         }
 
         #region Dependency Properties
