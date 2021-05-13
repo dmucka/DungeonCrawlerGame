@@ -1,6 +1,7 @@
 ﻿using DungeonCrawlerGame.Pages;
 using Stylet;
 using StyletIoC;
+using System.Windows;
 
 namespace DungeonCrawlerGame
 {
@@ -19,13 +20,25 @@ namespace DungeonCrawlerGame
         /// </summary>
         protected override void Configure()
         {
+            Container.Get<Services.SettingsService>().LoadSettings();
         }
 
-#if DEBUG
+        /// <summary>
+        /// Called on application exit.
+        /// </summary>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            Container.Get<Services.SettingsService>().SaveSettings();
+        }
+
         /// <summary>
         /// On application start.
         /// </summary>
-        protected override void OnStart() => Stylet.Logging.LogManager.Enabled = true;
+        protected override void OnStart()
+        {
+#if DEBUG
+            Stylet.Logging.LogManager.Enabled = true;
 #endif
+        }
     }
 }

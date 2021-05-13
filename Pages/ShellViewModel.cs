@@ -36,6 +36,10 @@ namespace DungeonCrawlerGame.Pages
             {
                 OpenPauseView();
             }
+            else if (ActiveItem is PauseViewModel)
+            {
+                GoBack();
+            }
         }
 
         protected override void OnInitialActivate()
@@ -48,6 +52,9 @@ namespace DungeonCrawlerGame.Pages
                 if (e.StagingItem.Input is MouseButtonEventArgs args && args.LeftButton == MouseButtonState.Released)
                     FocusManager.SetFocusedElement((View as Window), null);
             };
+
+            if (Settings.IsFullscreen)
+                Settings.EnableFullscreen();
         }
     }
 }
