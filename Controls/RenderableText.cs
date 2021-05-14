@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 
 namespace DungeonCrawlerGame.Controls
@@ -28,6 +29,13 @@ namespace DungeonCrawlerGame.Controls
             Width = width;
             Text = text;
         }
+
+        public RenderableText(double x, double y, double height, double width, string text, Brush color) : this(x, y, height, width, text)
+        {
+            Foreground = color;
+        }
+
+
 
         public double X
         {

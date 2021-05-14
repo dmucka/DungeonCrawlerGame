@@ -23,6 +23,8 @@ namespace DungeonCrawlerGame.Models
             Width = 8;
             RenderQueue = new();
             Map = new Tile[Height, Width];
+            Entities = new();
+            SpawnPoint = new Point(0, 0);
         }
 
         public int Id { get; private set; }
@@ -32,9 +34,11 @@ namespace DungeonCrawlerGame.Models
 
         public ObservableCollection<IRenderable> RenderQueue { get; }
         public Tile[,] Map { get; }
+        public List<BaseEntity> Entities { get; }
 
         public Level Render()
         {
+            // render map tiles
             foreach (var tile in this)
             {
                 double renderX = tile.X * tile.Height;
@@ -42,6 +46,26 @@ namespace DungeonCrawlerGame.Models
                 RenderQueue.Add(new TileImage(renderX, renderY, tile.Height, tile.Width, tile.Type));
             }
 
+            // render player and enemies
+            foreach (var entity in Entities)
+            {
+                double renderX = entity.X * 100 + (entity.Height / 8);
+                double renderY = entity.Y * 100 + (entity.Width / 8); ;
+                RenderQueue.Add(new EntityImage(renderX, renderY, entity.Height, entity.Width, entity.Type));
+            }
+
+            return this;
+        }
+
+        public Level AddEnemy(int x, int y, EntityType enemyType)
+        {
+            Entities.Add(new EnemyEntity(x, y, Entities.Count + 1, enemyType));
+            return this;
+        }
+
+        public Level AddPlayer()
+        {
+            Entities.Add(new PlayerEntity(SpawnPoint.X, SpawnPoint.Y, Entities.Count + 1));
             return this;
         }
 
@@ -53,13 +77,13 @@ namespace DungeonCrawlerGame.Models
 
         #region SetTile
 
-        private Level SetTile(int x, int y, TileType type)
+        protected Level SetTile(int x, int y, TileType type)
         {
             Map[x, y] = new Tile(type, x, y);
             return this;
         }
 
-        private Level SetTile(Range xRange, Range yRange, TileType type)
+        protected Level SetTile(Range xRange, Range yRange, TileType type)
         {
             foreach (var (X, Y) in new MatrixEnumerator(xRange, yRange))
                 Map[X, Y] = new Tile(type, X, Y);
@@ -67,7 +91,7 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
-        private Level SetTile(int x, Range yRange, TileType type)
+        protected Level SetTile(int x, Range yRange, TileType type)
         {
             foreach (var (X, Y) in new MatrixEnumerator(x..x, yRange))
                 Map[X, Y] = new Tile(type, X, Y);
@@ -75,7 +99,7 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
-        private Level SetTile(Range xRange, int y, TileType type)
+        protected Level SetTile(Range xRange, int y, TileType type)
         {
             foreach (var (X, Y) in new MatrixEnumerator(xRange, y..y))
                 Map[X, Y] = new Tile(type, X, Y);
@@ -121,7 +145,7 @@ namespace DungeonCrawlerGame.Models
             {
                 double renderX = X * 100 + 25;
                 double renderY = Y * 100 + 15;
-                RenderQueue.Add(new RenderableText(renderX, renderY, 100, 100, $"{X},{Y}"));
+                RenderQueue.Add(new RenderableText(renderX, renderY, 100, 100, $"{X},{Y}", System.Windows.Media.Brushes.LightGray));
             }
 
             return this;

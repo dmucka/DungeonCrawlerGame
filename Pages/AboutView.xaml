@@ -37,6 +37,12 @@
             <controls:LinkLabel HorizontalAlignment="Center"
                                 Content="Tile Set"
                                 Uri="https://opengameart.org/content/top-down-dungeon-tileset" />
+            <controls:LinkLabel HorizontalAlignment="Center"
+                                Content="Character"
+                                Uri="https://opengameart.org/content/a-blocky-dungeon" />
+            <controls:LinkLabel HorizontalAlignment="Center"
+                                Content="Slime"
+                                Uri="https://opengameart.org/content/slime-monster-24x24" />
         </StackPanel>
 
         <Button Grid.Row="2"

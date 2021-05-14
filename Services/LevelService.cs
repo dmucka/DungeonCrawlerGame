@@ -1,4 +1,5 @@
 ﻿using DungeonCrawlerGame.Models;
+using DungeonCrawlerGame.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,11 @@ namespace DungeonCrawlerGame.Services
             var level = new Level(1)
                 .SetEmptyLevel()
                 .SetSpawnPoint(0, 0)
-                .SetWall(0..3, 4..4)
+                .SetWall(0..5, 4)
                 .SetDoor(4, 4)
-                .SetWall(5, 4)
                 .SetStairs(1, 6)
+                .AddPlayer()
+                .AddEnemy(4, 0, EntityType.Slime)
                 .Render()
                 .SetDebugText();
             return level;

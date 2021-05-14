@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="/Themes/Button.xaml" />
                 <ResourceDictionary Source="/Themes/RoundButton.xaml" />
                 <ResourceDictionary Source="/Themes/KeybindButton.xaml" />
+                <ResourceDictionary Source="/Themes/RenderableText.xaml" />
             </s:ApplicationLoader.MergedDictionaries>
         </s:ApplicationLoader>
     </Application.Resources>

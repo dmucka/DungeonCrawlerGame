@@ -32,7 +32,8 @@
     <Canvas Width="800"
             Height="600"
             ab:AdornerBehavior.IsEnabled="True"
-            classes:CanvasBehavior.RenderChildren="{Binding CurrentLevel.RenderQueue}">
+            classes:CanvasBehavior.RenderChildren="{Binding CurrentLevel.RenderQueue}"
+            Background="White">
         <ab:AdornerBehavior.Adorners>
             <controls:RoundButton HorizontalAlignment="Right"
                                   VerticalAlignment="Top"

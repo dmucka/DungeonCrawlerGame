@@ -51,6 +51,9 @@ namespace DungeonCrawlerGame.Controls
         {
             switch (type)
             {
+                case TileType.None:
+                    Source = null;
+                    break;
                 case TileType.Floor:
                     Source = _floorBitmap;
                     break;
