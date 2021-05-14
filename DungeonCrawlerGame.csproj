@@ -9,15 +9,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\door.png" />
+    <None Remove="Assets\floor.png" />
     <None Remove="Assets\mainmenu_background.gif" />
+    <None Remove="Assets\stairs.png" />
     <None Remove="Assets\ui.png" />
+    <None Remove="Assets\wall.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\door.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\floor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\mainmenu_background.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\stairs.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\ui.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\wall.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -35,9 +51,5 @@
     <Page Update="Pages\ShellView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

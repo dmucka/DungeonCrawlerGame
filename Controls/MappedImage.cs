@@ -15,7 +15,7 @@ namespace DungeonCrawlerGame.Controls
     /// </summary>
     public class MappedImage : Image
     {
-        public static readonly BitmapSource uiSource = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/ui.png"));
+        private static readonly BitmapSource _uiBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/ui.png"));
 
         public MappedImage()
         {
@@ -37,7 +37,7 @@ namespace DungeonCrawlerGame.Controls
             var location = e.NewValue as Int32Rect?;
             if (location != null && d is MappedImage sender)
             {
-                sender.Source = new CroppedBitmap(uiSource, location.Value);
+                sender.Source = new CroppedBitmap(_uiBitmap, location.Value);
             }
         }
     }

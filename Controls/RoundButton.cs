@@ -1,14 +1,9 @@
-﻿using System.Windows;
+﻿using DungeonCrawlerGame.Enums;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace DungeonCrawlerGame.Controls
 {
-    public enum RoundButtonIcon
-    {
-        None,
-        MainMenu
-    }
-
     /// <summary>
     /// Round themed button that contains an icon.
     /// </summary>

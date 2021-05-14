@@ -34,6 +34,9 @@
             <controls:LinkLabel HorizontalAlignment="Center"
                                 Content="Buttons and User Interface"
                                 Uri="https://opengameart.org/content/golden-ui-bigger-than-ever-edition" />
+            <controls:LinkLabel HorizontalAlignment="Center"
+                                Content="Tile Set"
+                                Uri="https://opengameart.org/content/top-down-dungeon-tileset" />
         </StackPanel>
 
         <Button Grid.Row="2"

@@ -13,6 +13,7 @@ namespace DungeonCrawlerGame
         protected override void ConfigureIoC(IStyletIoCBuilder builder)
         {
             builder.Bind<Services.SettingsService>().ToSelf().InSingletonScope();
+            builder.Bind<Services.LevelService>().ToSelf().InSingletonScope();
         }
 
         /// <summary>
