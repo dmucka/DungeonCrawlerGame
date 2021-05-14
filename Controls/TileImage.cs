@@ -13,8 +13,8 @@ namespace DungeonCrawlerGame.Controls
 {
     public class TileImage : RenderableImage
     {
-        private static readonly BitmapSource _wallBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/wall.png"));
-        private static readonly BitmapSource _doorBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/door.png"));
+        private static readonly BitmapSource _wallBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/wall1.png"));
+        private static readonly BitmapSource _doorBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/door1.png"));
         private static readonly BitmapSource _floorBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/floor.png"));
         private static readonly BitmapSource _stairsBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/stairs.png"));
 
