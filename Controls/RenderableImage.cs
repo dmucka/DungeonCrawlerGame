@@ -20,10 +20,12 @@ namespace DungeonCrawlerGame.Controls
         {
         }
 
-        public RenderableImage(double x, double y)
+        public RenderableImage(double x, double y, double height, double width)
         {
             X = x;
             Y = y;
+            Height = height;
+            Width = width;
         }
 
         public double X

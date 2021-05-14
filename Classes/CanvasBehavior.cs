@@ -1,4 +1,5 @@
 ﻿using DungeonCrawlerGame.Controls;
+using DungeonCrawlerGame.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,16 +18,16 @@ namespace DungeonCrawlerGame.Classes
         #region Dependency Properties
 
         public static readonly DependencyProperty RenderChildrenProperty =
-            DependencyProperty.RegisterAttached("RenderChildren", typeof(ObservableCollection<RenderableImage>), typeof(CanvasBehavior),
+            DependencyProperty.RegisterAttached("RenderChildren", typeof(ObservableCollection<IRenderable>), typeof(CanvasBehavior),
                                                 new PropertyMetadata(OnRenderChildrenChanged));
 
-        public static ObservableCollection<RenderableImage> GetRenderChildren(DependencyObject d)
+        public static ObservableCollection<IRenderable> GetRenderChildren(DependencyObject d)
         {
-            var renderChildren = (ObservableCollection<RenderableImage>)d.GetValue(RenderChildrenProperty);
+            var renderChildren = (ObservableCollection<IRenderable>)d.GetValue(RenderChildrenProperty);
             return renderChildren;
         }
 
-        public static void SetRenderChildren(DependencyObject d, ObservableCollection<RenderableImage> value)
+        public static void SetRenderChildren(DependencyObject d, ObservableCollection<IRenderable> value)
         {
             d.SetValue(RenderChildrenProperty, value);
         }
@@ -43,7 +44,7 @@ namespace DungeonCrawlerGame.Classes
 
             if (e.OldValue != null)
             {
-                var renderChildrenOld = (ObservableCollection<RenderableImage>)e.OldValue;
+                var renderChildrenOld = (ObservableCollection<IRenderable>)e.OldValue;
                 renderChildrenOld.CollectionChanged -= RenderChildren_CollectionChanged;
             }
 
@@ -52,10 +53,10 @@ namespace DungeonCrawlerGame.Classes
             if (e.NewValue == null)
                 return;
 
-            var renderChildrenNew = (ObservableCollection<RenderableImage>)e.NewValue;
+            var renderChildrenNew = (ObservableCollection<IRenderable>)e.NewValue;
             renderChildrenNew.CollectionChanged += RenderChildren_CollectionChanged;
 
-            foreach (var item in renderChildrenNew)
+            foreach (FrameworkElement item in renderChildrenNew)
             {
                 if (item.Parent is Canvas c)
                     c.Children.Remove(item);
@@ -69,11 +70,11 @@ namespace DungeonCrawlerGame.Classes
             var canvas = (Canvas)sender;
 
             if (e.Action == NotifyCollectionChangedAction.Add)
-                foreach (RenderableImage item in e.NewItems)
+                foreach (FrameworkElement item in e.NewItems)
                     canvas.Children.Add(item);
 
             if (e.Action == NotifyCollectionChangedAction.Remove)
-                foreach (RenderableImage item in e.OldItems)
+                foreach (FrameworkElement item in e.OldItems)
                     canvas.Children.Remove(item);
         }
     }
