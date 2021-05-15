@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawlerGame.Enums
 {
-    public enum SideType
+    public enum EntityState
     {
-        Left,
-        Right,
-        Up,
-        Down
+        None,
+        Alive,
+        Dead
     }
 }

@@ -13,5 +13,18 @@ namespace DungeonCrawlerGame.Models
         {
             Type = enemyType;
         }
+
+        public int DropExperience { get => CalculateDropExperience(); }
+
+        private int CalculateDropExperience()
+        {
+            switch (Type)
+            {
+                case EntityType.Slime:
+                    return 3;
+                default:
+                    return 0;
+            }
+        }
     }
 }

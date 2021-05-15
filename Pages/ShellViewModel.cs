@@ -50,7 +50,7 @@ namespace DungeonCrawlerGame.Pages
 
             if (e.Key == Settings.UpKey)
             {
-                gameViewModel.CurrentLevel.MovePlayer(SideType.Top, 1);
+                gameViewModel.CurrentLevel.MovePlayer(SideType.Up, 1);
             }
             else if (e.Key == Settings.DownKey)
             {
@@ -66,6 +66,7 @@ namespace DungeonCrawlerGame.Pages
             }
             else if (e.Key == Settings.AttackKey)
             {
+                gameViewModel.CurrentLevel.TryAttack(gameViewModel.CurrentLevel.Player);
             }
         }
 

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawlerGame.Enums
 {
-    public enum SideType
+    public enum WeaponType
     {
-        Left,
-        Right,
-        Up,
-        Down
+        None,
+        Sword,
+        Staff,
+        Bow
     }
 }

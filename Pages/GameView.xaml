@@ -38,6 +38,55 @@
                                 <Label Content="{Binding CurrentLevel.Player.Health}"
                                        FontSize="20"
                                        Foreground="White" />
+
+                                <Label Content="|"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="ATK:"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Content="{Binding CurrentLevel.Player.Attack}"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="|"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="EXP:"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Margin="0,0,-2,0"
+                                       Padding="0,5,0,0"
+                                       Content="{Binding CurrentLevel.Player.Experience}"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Content="/10"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="|"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="LVL:"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Content="{Binding CurrentLevel.Player.Level}"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="|"
+                                       FontSize="20"
+                                       Foreground="White" />
+
+                                <Label Content="WPN:"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Content="{Binding CurrentLevel.Player.Weapon}"
+                                       FontSize="20"
+                                       Foreground="White" />
                             </StackPanel>
                         </ab:AdornerBehavior.Adorners>
                     </Canvas>

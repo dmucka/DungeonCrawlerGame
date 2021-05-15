@@ -17,6 +17,7 @@ namespace DungeonCrawlerGame.Models
             Height = 80;
             Type = EntityType.None;
             Health = 100;
+            State = EntityState.Alive;
         }
 
         public BaseEntity(int id, int x, int y) : this()
@@ -32,8 +33,10 @@ namespace DungeonCrawlerGame.Models
         public int Height { get; protected set; }
 
         public int Id { get; protected set; }
+        public EntityState State { get; protected set; }
         public EntityType Type { get; protected set; }
         public int Health { get; protected set; }
+        public virtual int Attack { get; protected set; }
 
         public void Move(SideType side, int units)
         {
@@ -45,13 +48,34 @@ namespace DungeonCrawlerGame.Models
                 case SideType.Right:
                     Y += units;
                     break;
-                case SideType.Top:
+                case SideType.Up:
                     X -= units;
                     break;
                 case SideType.Down:
                     X += units;
                     break;
             }
+        }
+
+        public void AttackTarget(BaseEntity target)
+        {
+            target.OnReceiveDamage(Attack);
+
+            if (target.State == EntityState.Dead && this is PlayerEntity player && target is EnemyEntity enemy)
+            {
+                player.AddExperience(enemy.DropExperience);
+            }
+        }
+
+        public void OnReceiveDamage(int damage)
+        {
+            var newHealth = Health - damage;
+            if (newHealth <= 0)
+            {
+                State = EntityState.Dead;
+            }
+
+            Health = newHealth;
         }
     }
 }

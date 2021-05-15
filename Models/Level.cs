@@ -53,9 +53,9 @@ namespace DungeonCrawlerGame.Models
             // render player and enemies
             foreach (var entity in Entities)
             {
-                double renderX = entity.X * 100 + (entity.Height / 8);
+                double renderX = entity.X * 100 - 10;
                 double renderY = entity.Y * 100 + (entity.Width / 8);
-                temp.Add(new EntityImage(entity.Id, renderX, renderY, entity.Height, entity.Width, entity.Type));
+                temp.Add(new EntityView(entity.Id, renderX, renderY, entity.Height, entity.Width, entity.Type, entity.Health));
             }
 
             RenderQueue = temp;
@@ -71,12 +71,19 @@ namespace DungeonCrawlerGame.Models
 
         #region Entity Editor
 
+        public void RemoveEntity(BaseEntity entity)
+        {
+            var renderedEntity = RenderQueue.First(x => x.Id == entity.Id);
+            RenderQueue.Remove(renderedEntity);
+            Entities.Remove(entity);
+        }
+
         public void UpdateEntity(BaseEntity entity)
         {
-            double renderX = entity.X * 100 + (entity.Height / 8);
+            double renderX = entity.X * 100 - 10;
             double renderY = entity.Y * 100 + (entity.Width / 8);
-            var renderedEntity = RenderQueue.First(x => x.Id == entity.Id);
-            renderedEntity.Update(renderX, renderY);
+            var renderedEntity = (EntityView)RenderQueue.First(x => x.Id == entity.Id);
+            renderedEntity.Update(renderX, renderY, entity.Health);
         }
 
         public bool MovePlayer(SideType side, int units) => MoveEntity(Player, side, units);
@@ -102,7 +109,7 @@ namespace DungeonCrawlerGame.Models
                 case SideType.Right:
                     y += units;
                     break;
-                case SideType.Top:
+                case SideType.Up:
                     x -= units;
                     break;
                 case SideType.Down:
@@ -123,6 +130,59 @@ namespace DungeonCrawlerGame.Models
             }
 
             return true;
+        }
+
+        public bool TryAttack(BaseEntity attacker)
+        {
+            var target = PredictAttack(attacker);
+            if (target == null)
+                return false;
+
+            attacker.AttackTarget(target);
+
+            if (target.State == EntityState.Dead)
+                RemoveEntity(target);
+            else
+                UpdateEntity(target);
+
+            return true;
+        }
+
+        public BaseEntity PredictAttack(BaseEntity attacker)
+        {
+            if (attacker is PlayerEntity player)
+            {
+                var range = 0;
+                switch (player.Weapon)
+                {
+                    case WeaponType.None:
+                        range = 0;
+                        break;
+                    case WeaponType.Sword:
+                        range = 1;
+                        break;
+                    case WeaponType.Staff:
+                        range = 2;
+                        break;
+                    case WeaponType.Bow:
+                        range = 4;
+                        break;
+                }
+
+                var upperLeftX = Math.Clamp(player.X - range, 0, Height);
+                var upperLeftY = Math.Clamp(player.Y - range, 0, Width);
+                var lowerRightX = Math.Clamp(player.X + range, 0, Height);
+                var lowerRightY = Math.Clamp(player.Y + range, 0, Width);
+
+                foreach (var (X, Y) in new MatrixEnumerator(upperLeftX..lowerRightX, upperLeftY..lowerRightY))
+                {
+                    var candidate = Entities.FirstOrDefault(x => x.X == X && x.Y == Y);
+                    if (candidate != null && candidate != attacker)
+                        return candidate;
+                }
+            }
+
+            return null;
         }
 
         #endregion

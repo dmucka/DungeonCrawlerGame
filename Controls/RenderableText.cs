@@ -36,6 +36,8 @@ namespace DungeonCrawlerGame.Controls
             Foreground = color;
         }
 
+        #region IRenderableElement
+
         public int Id { get; private set; }
 
         public double X
@@ -81,5 +83,7 @@ namespace DungeonCrawlerGame.Controls
             X = x;
             Y = y;
         }
+
+        #endregion
     }
 }
