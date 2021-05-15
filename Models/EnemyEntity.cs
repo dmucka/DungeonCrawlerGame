@@ -12,6 +12,9 @@ namespace DungeonCrawlerGame.Models
         public EnemyEntity(int id, int x, int y, EntityType enemyType) : base(id, x, y)
         {
             Type = enemyType;
+
+            if (enemyType == EntityType.BossSlime)
+                Health = 200;
         }
 
         public int DropExperience { get => CalculateDropExperience(); }
@@ -34,6 +37,8 @@ namespace DungeonCrawlerGame.Models
             {
                 case EntityType.Slime:
                     return 5;
+                case EntityType.BossSlime:
+                    return 15;
                 default:
                     return 0;
             }

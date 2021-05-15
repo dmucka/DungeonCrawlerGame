@@ -35,6 +35,7 @@ namespace DungeonCrawlerGame.Models
             {
                 newExp = 0;
                 Level += 1;
+                Health = 100;
             }
 
             Experience = newExp;

@@ -25,13 +25,23 @@ namespace DungeonCrawlerGame.Pages
         {
             CurrentLevel = _levelService.GetLevel1();
             CurrentLevel.LevelExit += CurrentLevel_LevelExit;
+            CurrentLevel.GameOver += CurrentLevel_GameOver;
+        }
+
+        private void CurrentLevel_GameOver(object sender, System.EventArgs e)
+        {
+            (Parent as ShellViewModel).OpenGameOver();
         }
 
         private void CurrentLevel_LevelExit(object sender, LevelExitEventArgs e)
         {
+            CurrentLevel.LevelExit -= CurrentLevel_GameOver;
             CurrentLevel.LevelExit -= CurrentLevel_LevelExit;
+
             CurrentLevel = e.NextLevel;
+
             CurrentLevel.LevelExit += CurrentLevel_LevelExit;
+            CurrentLevel.GameOver += CurrentLevel_GameOver;
         }
 
         protected override void OnInitialActivate()

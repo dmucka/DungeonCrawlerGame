@@ -1,5 +1,7 @@
-﻿using DungeonCrawlerGame.Enums;
+﻿using DungeonCrawlerGame.Classes;
+using DungeonCrawlerGame.Enums;
 using DungeonCrawlerGame.Interfaces;
+using DungeonCrawlerGame.Shaders;
 using LambdaConverters;
 using System;
 using System.Collections.Generic;
@@ -96,6 +98,10 @@ namespace DungeonCrawlerGame.Controls
                     break;
                 case EntityType.Slime:
                     EntityImage.Source = _slimeBitmap;
+                    break;
+                case EntityType.BossSlime:
+                    EntityImage.Source = _slimeBitmap;
+                    EntityImage.Effect = new OverlayEffect() { OverlayColor = Color.FromArgb(125, 255, 255, 50) };
                     break;
             }
         }

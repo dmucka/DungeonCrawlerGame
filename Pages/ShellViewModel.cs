@@ -31,6 +31,11 @@ namespace DungeonCrawlerGame.Pages
                 GoBack();
         }
 
+        public void OpenGameOver()
+        {
+            ActivateItem(_gameOverViewModel);
+        }
+
         public void OpenPauseView() => ActivateItem(_pauseViewModel);
 
         public void OnEscapePressed()
@@ -81,7 +86,7 @@ namespace DungeonCrawlerGame.Pages
             // game over
             if (gameViewModel.CurrentLevel.Player.State == EntityState.Dead)
             {
-                ActivateItem(_gameOverViewModel);
+                OpenGameOver();
             }
         }
 

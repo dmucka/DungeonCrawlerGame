@@ -42,6 +42,7 @@ namespace DungeonCrawlerGame.Models
 
         public delegate void LevelExitEventHandler(object sender, LevelExitEventArgs e);
         public event LevelExitEventHandler LevelExit;
+        public event EventHandler GameOver;
 
         public int Id { get; private set; }
         public int Height { get; private set; }
@@ -202,7 +203,12 @@ namespace DungeonCrawlerGame.Models
             attacker.AttackTarget(target);
 
             if (target.State == EntityState.Dead)
+            {
                 RemoveEntity(target);
+
+                if (target.Type == EntityType.BossSlime)
+                    GameOver(this, new EventArgs());
+            }
             else
                 UpdateEntity(target);
 
@@ -298,7 +304,8 @@ namespace DungeonCrawlerGame.Models
         {
             foreach (var (X, Y) in new MatrixEnumerator(Height, Width))
             {
-                if (X == offset || Y == offset || X == Height - 1 - offset || Y == Width - 1 - offset)
+                if ((X == offset || X == Height - 1 - offset) && Y < Width - offset && Y >= offset ||
+                    (Y == offset || Y == Width - 1 - offset) && X < Height - offset && X >= offset)
                     Map[X, Y] = new Tile(type, X, Y);
             }
 

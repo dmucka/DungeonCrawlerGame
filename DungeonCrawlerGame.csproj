@@ -13,12 +13,14 @@
     <None Remove="Assets\door1.png" />
     <None Remove="Assets\floor.png" />
     <None Remove="Assets\mainmenu_background.gif" />
+    <None Remove="Assets\OverlayEffect.fx" />
     <None Remove="Assets\player.png" />
     <None Remove="Assets\slime.png" />
     <None Remove="Assets\stairs.png" />
     <None Remove="Assets\ui.png" />
     <None Remove="Assets\wall.png" />
     <None Remove="Assets\wall1.png" />
+    <None Remove="Shaders\OverlayEffect.ps" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\wall1.png" />
+    <Resource Include="Shaders\OverlayEffect.ps">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

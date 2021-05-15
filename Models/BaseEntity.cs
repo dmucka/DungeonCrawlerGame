@@ -70,6 +70,13 @@ namespace DungeonCrawlerGame.Models
             if (target.State == EntityState.Dead && this is PlayerEntity player && target is EnemyEntity enemy)
             {
                 player.AddExperience(enemy.DropExperience);
+
+                var random = new Random();
+                if (random.Next(0, 6) == 0)
+                {
+                    var randomWeapon = (WeaponType)random.Next(1, 4);
+                    player.EquipWeapon(randomWeapon);
+                }
             }
         }
 

@@ -10,6 +10,7 @@ namespace DungeonCrawlerGame.Enums
     {
         None,
         Player,
-        Slime
+        Slime,
+        BossSlime
     }
 }
