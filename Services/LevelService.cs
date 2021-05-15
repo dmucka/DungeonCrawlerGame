@@ -17,6 +17,7 @@ namespace DungeonCrawlerGame.Services
         public Level GetLevel1()
         {
             var level = new Level(1)
+                .SetNextLevel(GetLevel2)
                 .SetEmptyLevel()
                 .SetSpawnPoint(0, 0)
                 .SetWall(0..5, 4)
@@ -31,15 +32,34 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetLevel2()
+        public Level GetLevel2(PlayerEntity player)
         {
             var level = new Level(2)
+                .SetNextLevel(GetLevel3)
                 .SetEmptyLevel()
                 .SetSpawnPoint(1, 6)
                 .SetWall(0..5, 4)
                 .SetDoor(1, 4)
                 .SetStairs(2, 2)
-                .AddPlayer()
+                .AddPlayer(player)
+                .AddEnemy(3, 5, EntityType.Slime)
+                .AddEnemy(4, 6, EntityType.Slime)
+                .AddEnemy(2, 1, EntityType.Slime)
+                .Render()
+                .SetDebugText();
+
+            return level;
+        }
+
+        public Level GetLevel3(PlayerEntity player)
+        {
+            var level = new Level(3)
+                .SetEmptyLevel()
+                .SetSpawnPoint(1, 6)
+                .SetWall(0..5, 4)
+                .SetDoor(1, 4)
+                .SetStairs(2, 2)
+                .AddPlayer(player)
                 .AddEnemy(3, 5, EntityType.Slime)
                 .AddEnemy(4, 6, EntityType.Slime)
                 .AddEnemy(2, 1, EntityType.Slime)

@@ -15,6 +15,18 @@ using System.Windows.Controls;
 
 namespace DungeonCrawlerGame.Models
 {
+    public class LevelExitEventArgs : EventArgs
+    {
+        public LevelExitEventArgs(Level currentLevel, Level nextLevel)
+        {
+            CurrentLevel = currentLevel;
+            NextLevel = nextLevel;
+        }
+
+        public Level CurrentLevel { get; set; }
+        public Level NextLevel { get; set; }
+    }
+
     public class Level : PropertyChangedBase, IEnumerable<Tile>
     {
         public Level(int id)
@@ -28,6 +40,9 @@ namespace DungeonCrawlerGame.Models
             SpawnPoint = new Point(0, 0);
         }
 
+        public delegate void LevelExitEventHandler(object sender, LevelExitEventArgs e);
+        public event LevelExitEventHandler LevelExit;
+
         public int Id { get; private set; }
         public int Height { get; private set; }
         public int Width { get; private set; }
@@ -37,7 +52,7 @@ namespace DungeonCrawlerGame.Models
         public Tile[,] Map { get; }
         public List<BaseEntity> Entities { get; }
         public PlayerEntity Player { get; private set; }
-        public Func<Level> NextLevelFactory { get; private set; }
+        public Func<PlayerEntity, Level> NextLevelFactory { get; private set; }
 
         public Level Render()
         {
@@ -96,7 +111,11 @@ namespace DungeonCrawlerGame.Models
                 } while (!randomMove);
 
                 // enemy attacks
-                TryAttack(entity);
+                var attack = random.Next(0, 5);
+                if (attack == 0)
+                {
+                    TryAttack(entity);
+                }
             }
         }
 
@@ -117,7 +136,18 @@ namespace DungeonCrawlerGame.Models
             renderedEntity.Update(renderX, renderY, entity.Health);
         }
 
-        public bool MovePlayer(SideType side, int units) => MoveEntity(Player, side, units);
+        public bool MovePlayer(SideType side, int units) 
+        {
+            var movement = MoveEntity(Player, side, units);
+
+            if (Map[Player.X, Player.Y].Type == TileType.Stairs)
+            {
+                var nextLevel = NextLevelFactory.Invoke(Player);
+                LevelExit(this, new LevelExitEventArgs(this, nextLevel));
+            }
+
+            return movement;
+        }
 
         public bool MoveEntity(BaseEntity entity, SideType side, int units)
         {
@@ -308,7 +338,7 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
-        public Level SetNextLevel(Func<Level> nextLevelFactory)
+        public Level SetNextLevel(Func<PlayerEntity, Level> nextLevelFactory)
         {
             NextLevelFactory = nextLevelFactory;
 
@@ -351,7 +381,15 @@ namespace DungeonCrawlerGame.Models
 
         public Level AddPlayer()
         {
-            Player = new PlayerEntity(Entities.Count + 1, SpawnPoint.X, SpawnPoint.Y);
+            Player = new PlayerEntity(1, SpawnPoint.X, SpawnPoint.Y);
+            Entities.Add(Player);
+            return this;
+        }
+
+        public Level AddPlayer(PlayerEntity player)
+        {
+            player.Teleport(SpawnPoint.X, SpawnPoint.Y);
+            Player = player;
             Entities.Add(Player);
             return this;
         }

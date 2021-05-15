@@ -24,6 +24,14 @@ namespace DungeonCrawlerGame.Pages
         public void NewGame()
         {
             CurrentLevel = _levelService.GetLevel1();
+            CurrentLevel.LevelExit += CurrentLevel_LevelExit;
+        }
+
+        private void CurrentLevel_LevelExit(object sender, LevelExitEventArgs e)
+        {
+            CurrentLevel.LevelExit -= CurrentLevel_LevelExit;
+            CurrentLevel = e.NextLevel;
+            CurrentLevel.LevelExit += CurrentLevel_LevelExit;
         }
 
         protected override void OnInitialActivate()

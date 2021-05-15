@@ -38,6 +38,12 @@ namespace DungeonCrawlerGame.Models
         public int Health { get; protected set; }
         public abstract int Attack { get; }
 
+        public void Teleport(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
         public void Move(SideType side, int units)
         {
             switch (side)
