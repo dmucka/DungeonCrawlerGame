@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace DungeonCrawlerGame.Controls
 {
-    public class RenderableImage : Image, IRenderable
+    public class RenderableImage : Image, IRenderableElement
     {
         static RenderableImage()
         {
@@ -20,13 +20,16 @@ namespace DungeonCrawlerGame.Controls
         {
         }
 
-        public RenderableImage(double x, double y, double height, double width)
+        public RenderableImage(int id, double x, double y, double height, double width)
         {
+            Id = id;
             X = x;
             Y = y;
             Height = height;
             Width = width;
         }
+
+        public int Id { get; private set; }
 
         public double X
         {
@@ -64,6 +67,12 @@ namespace DungeonCrawlerGame.Controls
             {
                 Canvas.SetLeft(sender, y.Value);
             }
+        }
+
+        public void Update(double x, double y)
+        {
+            X = x;
+            Y = y;
         }
     }
 }

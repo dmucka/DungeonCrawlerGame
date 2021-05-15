@@ -11,7 +11,7 @@ namespace DungeonCrawlerGame.Models
 {
     public abstract class BaseEntity : PropertyChangedBase, IRenderable
     {
-        public BaseEntity()
+        protected BaseEntity()
         {
             Width = 80;
             Height = 80;
@@ -19,20 +19,39 @@ namespace DungeonCrawlerGame.Models
             Health = 100;
         }
 
-        public BaseEntity(double x, double y, int id) : this()
+        public BaseEntity(int x, int y, int id) : this()
         {
+            Id = id;
             X = x;
             Y = y;
-            Id = id;
         }
 
-        public double X { get; protected set; }
-        public double Y { get; protected set; }
-        public double Width { get; protected set; }
-        public double Height { get; protected set; }
+        public int X { get; protected set; }
+        public int Y { get; protected set; }
+        public int Width { get; protected set; }
+        public int Height { get; protected set; }
 
         public int Id { get; protected set; }
         public EntityType Type { get; protected set; }
         public int Health { get; protected set; }
+
+        public void Move(SideType side, int units)
+        {
+            switch (side)
+            {
+                case SideType.Left:
+                    Y -= units;
+                    break;
+                case SideType.Right:
+                    Y += units;
+                    break;
+                case SideType.Top:
+                    X -= units;
+                    break;
+                case SideType.Down:
+                    X += units;
+                    break;
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@
         Width="816"
         Height="639"
         d:DataContext="{d:DesignInstance local:ShellViewModel}"
+        PreviewKeyDown="{s:Action OnPreviewKeyDown}"
         ResizeMode="CanMinimize"
         mc:Ignorable="d">
 

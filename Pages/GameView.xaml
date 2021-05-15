@@ -12,36 +12,37 @@
              d:Height="600"
              d:Width="800"
              mc:Ignorable="d">
-    <!--<Grid>
-        <Border Background="Gray">
-            <Grid ab:AdornerBehavior.IsEnabled="True">
-                <ab:AdornerBehavior.Adorners>
-                    <controls:RoundButton HorizontalAlignment="Right"
-                                          VerticalAlignment="Top"
-                                          Command="{s:Action OpenPauseView}"
-                                          Icon="MainMenu" />
-                </ab:AdornerBehavior.Adorners>
 
-                <Canvas Width="800"
-                        Height="600"
-                        classes:CanvasBehavior.RenderChildren="{Binding CurrentLevel.RenderQueue}" />
-            </Grid>
-        </Border>
-    </Grid>-->
-
-    <Canvas Width="800"
-            Height="600"
-            ab:AdornerBehavior.IsEnabled="True"
-            classes:CanvasBehavior.RenderChildren="{Binding CurrentLevel.RenderQueue}"
-            Background="White">
-        <ab:AdornerBehavior.Adorners>
-            <controls:RoundButton HorizontalAlignment="Right"
-                                  VerticalAlignment="Top"
-                                  ab:AdornerBehavior.OffsetX="-10"
-                                  ab:AdornerBehavior.OffsetY="10"
-                                  Command="{s:Action OpenPauseView}"
-                                  Icon="MainMenu" />
-        </ab:AdornerBehavior.Adorners>
-    </Canvas>
-
+    <AdornerDecorator>
+        <ItemsControl ItemsSource="{Binding CurrentLevel.RenderQueue, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Width="800"
+                            Height="600"
+                            ab:AdornerBehavior.IsEnabled="True"
+                            Background="White">
+                        <ab:AdornerBehavior.Adorners>
+                            <controls:RoundButton HorizontalAlignment="Right"
+                                                  VerticalAlignment="Top"
+                                                  ab:AdornerBehavior.OffsetX="-10"
+                                                  ab:AdornerBehavior.OffsetY="10"
+                                                  Command="{s:Action OpenPauseView}"
+                                                  Icon="MainMenu" />
+                            <StackPanel HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Background="#CC000000"
+                                        Orientation="Horizontal">
+                                <Label Content="HP:"
+                                       FontSize="20"
+                                       Foreground="White" />
+                                <Label Content="{Binding CurrentLevel.Player.Health}"
+                                       FontSize="20"
+                                       Foreground="White" />
+                            </StackPanel>
+                        </ab:AdornerBehavior.Adorners>
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </AdornerDecorator>
 </UserControl>

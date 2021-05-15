@@ -1,4 +1,5 @@
-﻿using DungeonCrawlerGame.Services;
+﻿using DungeonCrawlerGame.Enums;
+using DungeonCrawlerGame.Services;
 using Stylet;
 using StyletIoC;
 using System.Windows;
@@ -39,6 +40,32 @@ namespace DungeonCrawlerGame.Pages
             else if (ActiveItem is PauseViewModel)
             {
                 GoBack();
+            }
+        }
+
+        public void OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (ActiveItem is not GameViewModel gameViewModel)
+                return;
+
+            if (e.Key == Settings.UpKey)
+            {
+                gameViewModel.CurrentLevel.MovePlayer(SideType.Top, 1);
+            }
+            else if (e.Key == Settings.DownKey)
+            {
+                gameViewModel.CurrentLevel.MovePlayer(SideType.Down, 1);
+            }
+            else if (e.Key == Settings.LeftKey)
+            {
+                gameViewModel.CurrentLevel.MovePlayer(SideType.Left, 1);
+            }
+            else if (e.Key == Settings.RightKey)
+            {
+                gameViewModel.CurrentLevel.MovePlayer(SideType.Right, 1);
+            }
+            else if (e.Key == Settings.AttackKey)
+            {
             }
         }
 

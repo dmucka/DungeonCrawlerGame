@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace DungeonCrawlerGame.Interfaces
 {
-    public interface IRenderable
+    public interface IRenderableElement
     {
         int Id { get; }
-        int X { get; }
-        int Y { get; }
-        int Width { get; }
-        int Height { get; }
+        double X { get; }
+        double Y { get; }
+        double Width { get; }
+        double Height { get; }
+
+        void Update(double x, double y);
     }
 }

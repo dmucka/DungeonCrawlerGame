@@ -3,14 +3,15 @@ using Stylet;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using DungeonCrawlerGame.Enums;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections;
 using DungeonCrawlerGame.Classes;
 using DungeonCrawlerGame.Interfaces;
+using System.Windows.Media;
+using Point = System.Drawing.Point;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DungeonCrawlerGame.Models
 {
@@ -21,7 +22,7 @@ namespace DungeonCrawlerGame.Models
             Id = id;
             Height = 6;
             Width = 8;
-            RenderQueue = new();
+            RenderQueue = null;
             Map = new Tile[Height, Width];
             Entities = new();
             SpawnPoint = new Point(0, 0);
@@ -32,29 +33,49 @@ namespace DungeonCrawlerGame.Models
         public int Width { get; private set; }
         public Point SpawnPoint { get; private set; }
 
-        public ObservableCollection<IRenderable> RenderQueue { get; }
+        public ObservableCollection<IRenderableElement> RenderQueue { get; private set; }
         public Tile[,] Map { get; }
         public List<BaseEntity> Entities { get; }
+        public PlayerEntity Player { get; private set; }
+
 
         public Level Render()
         {
+            var temp = new ObservableCollection<IRenderableElement>();
+
             // render map tiles
             foreach (var tile in this)
             {
                 double renderX = tile.X * tile.Height;
                 double renderY = tile.Y * tile.Width;
-                RenderQueue.Add(new TileImage(renderX, renderY, tile.Height, tile.Width, tile.Type));
+                temp.Add(new TileImage(tile.Id, renderX, renderY, tile.Height, tile.Width, tile.Type));
             }
 
             // render player and enemies
             foreach (var entity in Entities)
             {
                 double renderX = entity.X * 100 + (entity.Height / 8);
-                double renderY = entity.Y * 100 + (entity.Width / 8); ;
-                RenderQueue.Add(new EntityImage(renderX, renderY, entity.Height, entity.Width, entity.Type));
+                double renderY = entity.Y * 100 + (entity.Width / 8);
+                temp.Add(new EntityImage(entity.Id, renderX, renderY, entity.Height, entity.Width, entity.Type));
             }
 
+            RenderQueue = temp;
+
             return this;
+        }
+
+        public void Update(BaseEntity entity)
+        {
+            double renderX = entity.X * 100 + (entity.Height / 8);
+            double renderY = entity.Y * 100 + (entity.Width / 8);
+            var renderedEntity = RenderQueue.First(x => x.Id == entity.Id);
+            renderedEntity.Update(renderX, renderY);
+        }
+
+        public void CleanUp()
+        {
+            RenderQueue.Clear();
+            RenderQueue = null;
         }
 
         public Level AddEnemy(int x, int y, EntityType enemyType)
@@ -65,7 +86,8 @@ namespace DungeonCrawlerGame.Models
 
         public Level AddPlayer()
         {
-            Entities.Add(new PlayerEntity(SpawnPoint.X, SpawnPoint.Y, Entities.Count + 1));
+            Player = new PlayerEntity(SpawnPoint.X, SpawnPoint.Y, Entities.Count + 1);
+            Entities.Add(Player);
             return this;
         }
 
@@ -73,6 +95,52 @@ namespace DungeonCrawlerGame.Models
         {
             SpawnPoint = new Point(x, y);
             return this;
+        }
+
+        public bool MovePlayer(SideType side, int units) => MoveEntity(Player, side, units);
+
+        public bool MoveEntity(BaseEntity entity, SideType side, int units)
+        {
+            if (!PredictMove(entity.X, entity.Y, side, units))
+                return false;
+
+            entity.Move(side, units);
+            Update(entity);
+
+            return true;
+        }
+
+        public bool PredictMove(int x, int y, SideType side, int units)
+        {
+            switch (side)
+            {
+                case SideType.Left:
+                    y -= units;
+                    break;
+                case SideType.Right:
+                    y += units;
+                    break;
+                case SideType.Top:
+                    x -= units;
+                    break;
+                case SideType.Down:
+                    x += units;
+                    break;
+            }
+
+            if (x < 0 || y < 0 || x >= Height || y >= Width)
+                return false;
+
+            if (Map[x, y].Type == TileType.Wall)
+                return false;
+
+            foreach (var entity in Entities)
+            {
+                if (entity.X == x && entity.Y == y)
+                    return false;
+            }
+
+            return true;
         }
 
         #region SetTile
@@ -145,7 +213,7 @@ namespace DungeonCrawlerGame.Models
             {
                 double renderX = X * 100 + 25;
                 double renderY = Y * 100 + 15;
-                RenderQueue.Add(new RenderableText(renderX, renderY, 100, 100, $"{X},{Y}", System.Windows.Media.Brushes.LightGray));
+                RenderQueue.Add(new RenderableText(RenderQueue.Count + 1, renderX, renderY, 100, 100, $"{X},{Y}", new SolidColorBrush(Color.FromArgb(127, 255, 255, 255))));
             }
 
             return this;

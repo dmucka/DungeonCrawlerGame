@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace DungeonCrawlerGame.Controls
 {
-    public class RenderableText : TextBlock, IRenderable
+    public class RenderableText : TextBlock, IRenderableElement
     {
         static RenderableText()
         {
@@ -21,8 +21,9 @@ namespace DungeonCrawlerGame.Controls
         {
         }
 
-        public RenderableText(double x, double y, double height, double width, string text)
+        public RenderableText(int id, double x, double y, double height, double width, string text)
         {
+            Id = id;
             X = x;
             Y = y;
             Height = height;
@@ -30,12 +31,12 @@ namespace DungeonCrawlerGame.Controls
             Text = text;
         }
 
-        public RenderableText(double x, double y, double height, double width, string text, Brush color) : this(x, y, height, width, text)
+        public RenderableText(int id, double x, double y, double height, double width, string text, Brush color) : this(id, x, y, height, width, text)
         {
             Foreground = color;
         }
 
-
+        public int Id { get; private set; }
 
         public double X
         {
@@ -73,6 +74,12 @@ namespace DungeonCrawlerGame.Controls
             {
                 Canvas.SetLeft(sender, y.Value);
             }
+        }
+
+        public void Update(double x, double y)
+        {
+            X = x;
+            Y = y;
         }
     }
 }

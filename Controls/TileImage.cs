@@ -22,7 +22,7 @@ namespace DungeonCrawlerGame.Controls
         {
         }
 
-        public TileImage(double x, double y, double height, double width, TileType type) : base(x, y, height, width)
+        public TileImage(int id, double x, double y, double height, double width, TileType type) : base(id, x, y, height, width)
         {
             Type = type;
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
