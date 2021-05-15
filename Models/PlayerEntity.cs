@@ -9,7 +9,7 @@ namespace DungeonCrawlerGame.Models
 {
     public class PlayerEntity : BaseEntity
     {
-        public PlayerEntity(int x, int y, int id) : base(x, y, id)
+        public PlayerEntity(int id, int x, int y) : base(id, x, y)
         {
             Type = EntityType.Player;
         }

@@ -38,7 +38,6 @@ namespace DungeonCrawlerGame.Models
         public List<BaseEntity> Entities { get; }
         public PlayerEntity Player { get; private set; }
 
-
         public Level Render()
         {
             var temp = new ObservableCollection<IRenderableElement>();
@@ -64,37 +63,20 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
-        public void Update(BaseEntity entity)
-        {
-            double renderX = entity.X * 100 + (entity.Height / 8);
-            double renderY = entity.Y * 100 + (entity.Width / 8);
-            var renderedEntity = RenderQueue.First(x => x.Id == entity.Id);
-            renderedEntity.Update(renderX, renderY);
-        }
-
         public void CleanUp()
         {
             RenderQueue.Clear();
             RenderQueue = null;
         }
 
-        public Level AddEnemy(int x, int y, EntityType enemyType)
-        {
-            Entities.Add(new EnemyEntity(x, y, Entities.Count + 1, enemyType));
-            return this;
-        }
+        #region Entity Editor
 
-        public Level AddPlayer()
+        public void UpdateEntity(BaseEntity entity)
         {
-            Player = new PlayerEntity(SpawnPoint.X, SpawnPoint.Y, Entities.Count + 1);
-            Entities.Add(Player);
-            return this;
-        }
-
-        public Level SetSpawnPoint(int x, int y)
-        {
-            SpawnPoint = new Point(x, y);
-            return this;
+            double renderX = entity.X * 100 + (entity.Height / 8);
+            double renderY = entity.Y * 100 + (entity.Width / 8);
+            var renderedEntity = RenderQueue.First(x => x.Id == entity.Id);
+            renderedEntity.Update(renderX, renderY);
         }
 
         public bool MovePlayer(SideType side, int units) => MoveEntity(Player, side, units);
@@ -105,7 +87,7 @@ namespace DungeonCrawlerGame.Models
                 return false;
 
             entity.Move(side, units);
-            Update(entity);
+            UpdateEntity(entity);
 
             return true;
         }
@@ -141,6 +123,16 @@ namespace DungeonCrawlerGame.Models
             }
 
             return true;
+        }
+
+        #endregion
+
+        #region Map Editor
+
+        public Level SetSpawnPoint(int x, int y)
+        {
+            SpawnPoint = new Point(x, y);
+            return this;
         }
 
         #region SetTile
@@ -206,6 +198,21 @@ namespace DungeonCrawlerGame.Models
 
             return this;
         }
+
+        public Level AddEnemy(int x, int y, EntityType enemyType)
+        {
+            Entities.Add(new EnemyEntity(Entities.Count + 1, x, y, enemyType));
+            return this;
+        }
+
+        public Level AddPlayer()
+        {
+            Player = new PlayerEntity(Entities.Count + 1, SpawnPoint.X, SpawnPoint.Y);
+            Entities.Add(Player);
+            return this;
+        }
+
+        #endregion
 
         public Level SetDebugText()
         {

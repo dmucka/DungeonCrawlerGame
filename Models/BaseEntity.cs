@@ -19,7 +19,7 @@ namespace DungeonCrawlerGame.Models
             Health = 100;
         }
 
-        public BaseEntity(int x, int y, int id) : this()
+        public BaseEntity(int id, int x, int y) : this()
         {
             Id = id;
             X = x;
