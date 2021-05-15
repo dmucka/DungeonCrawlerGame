@@ -36,7 +36,7 @@ namespace DungeonCrawlerGame.Models
         public EntityState State { get; protected set; }
         public EntityType Type { get; protected set; }
         public int Health { get; protected set; }
-        public virtual int Attack { get; protected set; }
+        public abstract int Attack { get; }
 
         public void Move(SideType side, int units)
         {
@@ -71,9 +71,7 @@ namespace DungeonCrawlerGame.Models
         {
             var newHealth = Health - damage;
             if (newHealth <= 0)
-            {
                 State = EntityState.Dead;
-            }
 
             Health = newHealth;
         }

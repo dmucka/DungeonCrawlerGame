@@ -21,7 +21,7 @@
                             Height="600"
                             ab:AdornerBehavior.IsEnabled="True"
                             Background="White">
-                        <ab:AdornerBehavior.Adorners>
+                        <ab:AdornerBehavior.Adorners d:DataContext="{d:DesignInstance local:GameViewModel}">
                             <controls:RoundButton HorizontalAlignment="Right"
                                                   VerticalAlignment="Top"
                                                   ab:AdornerBehavior.OffsetX="-10"

@@ -15,6 +15,7 @@ namespace DungeonCrawlerGame.Models
         }
 
         public int DropExperience { get => CalculateDropExperience(); }
+        public override int Attack { get => CalculateAttack(); }
 
         private int CalculateDropExperience()
         {
@@ -22,6 +23,17 @@ namespace DungeonCrawlerGame.Models
             {
                 case EntityType.Slime:
                     return 3;
+                default:
+                    return 0;
+            }
+        }
+
+        private int CalculateAttack()
+        {
+            switch (Type)
+            {
+                case EntityType.Slime:
+                    return 5;
                 default:
                     return 0;
             }

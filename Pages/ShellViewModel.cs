@@ -11,11 +11,13 @@ namespace DungeonCrawlerGame.Pages
     {
         private readonly MainMenuViewModel _mainMenuViewModel;
         private readonly PauseViewModel _pauseViewModel;
+        private readonly GameOverViewModel _gameOverViewModel;
 
-        public ShellViewModel(MainMenuViewModel mainMenuViewModel, PauseViewModel pauseViewModel)
+        public ShellViewModel(MainMenuViewModel mainMenuViewModel, PauseViewModel pauseViewModel, GameOverViewModel gameOverViewModel)
         {
             _mainMenuViewModel = mainMenuViewModel;
             _pauseViewModel = pauseViewModel;
+            _gameOverViewModel = gameOverViewModel;
 
             ActivateItem(_mainMenuViewModel);
         }
@@ -48,25 +50,38 @@ namespace DungeonCrawlerGame.Pages
             if (ActiveItem is not GameViewModel gameViewModel)
                 return;
 
+            var level = gameViewModel.CurrentLevel;
+
             if (e.Key == Settings.UpKey)
             {
-                gameViewModel.CurrentLevel.MovePlayer(SideType.Up, 1);
+                level.MovePlayer(SideType.Up, 1);
+                level.Tick();
             }
             else if (e.Key == Settings.DownKey)
             {
-                gameViewModel.CurrentLevel.MovePlayer(SideType.Down, 1);
+                level.MovePlayer(SideType.Down, 1);
+                level.Tick();
             }
             else if (e.Key == Settings.LeftKey)
             {
-                gameViewModel.CurrentLevel.MovePlayer(SideType.Left, 1);
+                level.MovePlayer(SideType.Left, 1);
+                level.Tick();
             }
             else if (e.Key == Settings.RightKey)
             {
-                gameViewModel.CurrentLevel.MovePlayer(SideType.Right, 1);
+                level.MovePlayer(SideType.Right, 1);
+                level.Tick();
             }
             else if (e.Key == Settings.AttackKey)
             {
-                gameViewModel.CurrentLevel.TryAttack(gameViewModel.CurrentLevel.Player);
+                level.Tick();
+                level.TryAttack(gameViewModel.CurrentLevel.Player);
+            }
+
+            // game over
+            if (gameViewModel.CurrentLevel.Player.State == EntityState.Dead)
+            {
+                ActivateItem(_gameOverViewModel);
             }
         }
 

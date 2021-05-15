@@ -37,6 +37,7 @@ namespace DungeonCrawlerGame.Models
         public Tile[,] Map { get; }
         public List<BaseEntity> Entities { get; }
         public PlayerEntity Player { get; private set; }
+        public Func<Level> NextLevelFactory { get; private set; }
 
         public Level Render()
         {
@@ -67,6 +68,36 @@ namespace DungeonCrawlerGame.Models
         {
             RenderQueue.Clear();
             RenderQueue = null;
+        }
+
+        public void Tick()
+        {
+            var random = new Random();
+
+            foreach (var entity in Entities.Where(x => x.Type != EntityType.Player).ToList())
+            {
+                if (entity.State != EntityState.Alive)
+                    continue;
+
+                // random entity movement
+                var randomMove = false;
+
+                do
+                {
+                    var movement = random.Next(-1, 5);
+                    if (movement == -1)
+                    {
+                        randomMove = true;
+                        break;
+                    }
+
+                    var randomSide = (SideType)movement;
+                    randomMove = MoveEntity(entity, randomSide, 1);
+                } while (!randomMove);
+
+                // enemy attacks
+                TryAttack(entity);
+            }
         }
 
         #region Entity Editor
@@ -150,9 +181,10 @@ namespace DungeonCrawlerGame.Models
 
         public BaseEntity PredictAttack(BaseEntity attacker)
         {
+            var range = 1;
+
             if (attacker is PlayerEntity player)
             {
-                var range = 0;
                 switch (player.Weapon)
                 {
                     case WeaponType.None:
@@ -168,18 +200,23 @@ namespace DungeonCrawlerGame.Models
                         range = 4;
                         break;
                 }
+            }
 
-                var upperLeftX = Math.Clamp(player.X - range, 0, Height);
-                var upperLeftY = Math.Clamp(player.Y - range, 0, Width);
-                var lowerRightX = Math.Clamp(player.X + range, 0, Height);
-                var lowerRightY = Math.Clamp(player.Y + range, 0, Width);
+            var upperLeftX = Math.Clamp(attacker.X - range, 0, Height);
+            var upperLeftY = Math.Clamp(attacker.Y - range, 0, Width);
+            var lowerRightX = Math.Clamp(attacker.X + range, 0, Height);
+            var lowerRightY = Math.Clamp(attacker.Y + range, 0, Width);
 
-                foreach (var (X, Y) in new MatrixEnumerator(upperLeftX..lowerRightX, upperLeftY..lowerRightY))
-                {
-                    var candidate = Entities.FirstOrDefault(x => x.X == X && x.Y == Y);
-                    if (candidate != null && candidate != attacker)
-                        return candidate;
-                }
+            foreach (var (X, Y) in new MatrixEnumerator(upperLeftX..lowerRightX, upperLeftY..lowerRightY))
+            {
+                var candidate = Entities.FirstOrDefault(x => x.X == X && x.Y == Y);
+
+                if (attacker is PlayerEntity && candidate != null && candidate != attacker)
+                    return candidate;
+
+                if (attacker is EnemyEntity && candidate != null && candidate != attacker && candidate is PlayerEntity)
+                    return candidate;
+
             }
 
             return null;
@@ -227,6 +264,17 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
+        protected Level SetTileRing(int offset, TileType type)
+        {
+            foreach (var (X, Y) in new MatrixEnumerator(Height, Width))
+            {
+                if (X == offset || Y == offset || X == Height - 1 - offset || Y == Width - 1 - offset)
+                    Map[X, Y] = new Tile(type, X, Y);
+            }
+
+            return this;
+        }
+
         #endregion
 
         #region SetFloor
@@ -244,6 +292,7 @@ namespace DungeonCrawlerGame.Models
         public Level SetWall(Range xRange, Range yRange) => SetTile(xRange, yRange, TileType.Wall);
         public Level SetWall(int x, Range yRange) => SetTile(x, yRange, TileType.Wall);
         public Level SetWall(Range xRange, int y) => SetTile(xRange, y, TileType.Wall);
+        public Level SetWallRing(int offset) => SetTileRing(offset, TileType.Wall);
 
         #endregion
 
@@ -259,11 +308,46 @@ namespace DungeonCrawlerGame.Models
             return this;
         }
 
+        public Level SetNextLevel(Func<Level> nextLevelFactory)
+        {
+            NextLevelFactory = nextLevelFactory;
+
+            return this;
+        }
+
+        #region AddEnemy
+
         public Level AddEnemy(int x, int y, EntityType enemyType)
         {
             Entities.Add(new EnemyEntity(Entities.Count + 1, x, y, enemyType));
             return this;
         }
+
+        public Level AddEnemy(Range xRange, Range yRange, EntityType enemyType)
+        {
+            foreach (var (X, Y) in new MatrixEnumerator(xRange, yRange))
+                AddEnemy(X, Y, enemyType);
+
+            return this;
+        }
+
+        public Level AddEnemy(int x, Range yRange, EntityType enemyType)
+        {
+            foreach (var (X, Y) in new MatrixEnumerator(x..x, yRange))
+                AddEnemy(X, Y, enemyType);
+
+            return this;
+        }
+
+        public Level AddEnemy(Range xRange, int y, EntityType enemyType)
+        {
+            foreach (var (X, Y) in new MatrixEnumerator(xRange, y..y))
+                AddEnemy(X, Y, enemyType);
+
+            return this;
+        }
+
+        #endregion
 
         public Level AddPlayer()
         {

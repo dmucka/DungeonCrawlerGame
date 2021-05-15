@@ -14,6 +14,8 @@ namespace DungeonCrawlerGame.Pages
     {
         private readonly LevelService _levelService;
 
+        public Level CurrentLevel { get; private set; }
+
         public GameViewModel(LevelService levelService)
         {
             _levelService = levelService;
@@ -34,8 +36,6 @@ namespace DungeonCrawlerGame.Pages
             CurrentLevel.CleanUp();
             CurrentLevel = null;
         }
-
-        public Level CurrentLevel { get; private set; }
 
         public void OpenPauseView() => (Parent as ShellViewModel).OpenPauseView();
 
