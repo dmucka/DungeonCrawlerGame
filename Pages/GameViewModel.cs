@@ -30,7 +30,7 @@ namespace DungeonCrawlerGame.Pages
 
         private void CurrentLevel_GameOver(object sender, System.EventArgs e)
         {
-            (Parent as ShellViewModel).OpenGameOver();
+            (Parent as ShellViewModel).OpenGameOver("You won");
         }
 
         private void CurrentLevel_LevelExit(object sender, LevelExitEventArgs e)

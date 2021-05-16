@@ -10,5 +10,6 @@ namespace DungeonCrawlerGame.Pages
 
         public void ReturnToMainMenu() => (Parent as ShellViewModel).ReturnToMainMenu();
 
+        public string Message { get; set; }
     }
 }

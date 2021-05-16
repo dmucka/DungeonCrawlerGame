@@ -11,9 +11,11 @@
     <StackPanel Grid.Row="0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
+        <Label Content="Game Over" FontSize="55" />
         <Label Margin="0,0,0,50"
-               Content="Game Over"
-               FontSize="55" />
+               HorizontalAlignment="Center"
+               Content="{Binding Message}"
+               FontSize="20" />
         <Button Command="{s:Action ReturnToMainMenu}">Return to main menu</Button>
     </StackPanel>
 

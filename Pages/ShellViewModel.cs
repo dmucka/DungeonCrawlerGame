@@ -31,8 +31,9 @@ namespace DungeonCrawlerGame.Pages
                 GoBack();
         }
 
-        public void OpenGameOver()
+        public void OpenGameOver(string message)
         {
+            _gameOverViewModel.Message = message;
             ActivateItem(_gameOverViewModel);
         }
 
@@ -86,7 +87,7 @@ namespace DungeonCrawlerGame.Pages
             // game over
             if (gameViewModel.CurrentLevel.Player.State == EntityState.Dead)
             {
-                OpenGameOver();
+                OpenGameOver("You died");
             }
         }
 
