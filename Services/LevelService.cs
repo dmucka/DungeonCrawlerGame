@@ -26,8 +26,7 @@ namespace DungeonCrawlerGame.Services
                 .AddPlayer()
                 .AddEnemy(4, 0, EntityType.Slime)
                 .AddEnemy(4, 6, EntityType.Slime)
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
@@ -45,8 +44,7 @@ namespace DungeonCrawlerGame.Services
                 .AddEnemy(3, 5, EntityType.Slime)
                 .AddEnemy(4, 6, EntityType.Slime)
                 .AddEnemy(2, 1, EntityType.Slime)
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
@@ -65,8 +63,7 @@ namespace DungeonCrawlerGame.Services
                 .AddEnemy(3, 5, EntityType.Slime)
                 .AddEnemy(4, 6, EntityType.Slime)
                 .AddEnemy(2, 1, EntityType.Slime)
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
@@ -82,8 +79,7 @@ namespace DungeonCrawlerGame.Services
                 .SetDoor(1, 4)
                 .AddPlayer(player)
                 .AddEnemy(4, 2, EntityType.BossSlime)
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
@@ -99,8 +95,7 @@ namespace DungeonCrawlerGame.Services
                 .SetStairs(1, 6)
                 .AddPlayer()
                 .AddEnemy(1..3, 1..3, EntityType.Slime)
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
@@ -112,8 +107,7 @@ namespace DungeonCrawlerGame.Services
                 .SetWallRing(1)
                 .SetSpawnPoint(3, 5)
                 .AddPlayer()
-                .Render()
-                .SetDebugText();
+                .Render();
 
             return level;
         }
