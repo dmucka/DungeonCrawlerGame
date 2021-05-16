@@ -21,11 +21,17 @@ namespace DungeonCrawlerGame.Pages
             _levelService = levelService;
         }
 
-        public void NewGame()
+        public void LoadGame(Level level)
         {
-            CurrentLevel = _levelService.GetLevel1();
+            _levelService.CurrentLevel = level;
+            CurrentLevel = _levelService.CurrentLevel;
             CurrentLevel.LevelExit += CurrentLevel_LevelExit;
             CurrentLevel.GameOver += CurrentLevel_GameOver;
+        }
+
+        public void NewGame()
+        {
+            LoadGame(_levelService.GetLevel1());
         }
 
         private void CurrentLevel_GameOver(object sender, System.EventArgs e)
@@ -38,15 +44,11 @@ namespace DungeonCrawlerGame.Pages
             CurrentLevel.LevelExit -= CurrentLevel_GameOver;
             CurrentLevel.LevelExit -= CurrentLevel_LevelExit;
 
+            _levelService.CurrentLevel = e.NextLevel;
             CurrentLevel = e.NextLevel;
 
             CurrentLevel.LevelExit += CurrentLevel_LevelExit;
             CurrentLevel.GameOver += CurrentLevel_GameOver;
-        }
-
-        protected override void OnInitialActivate()
-        {
-            NewGame();
         }
 
         protected override void OnClose()

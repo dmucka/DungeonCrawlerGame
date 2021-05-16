@@ -20,9 +20,17 @@ namespace DungeonCrawlerGame.Pages
 
         public void OpenAboutView() => (Parent as ShellViewModel).ActivateItem(_aboutViewModel);
 
-        public void OpenLoadGameView() => (Parent as ShellViewModel).ActivateItem(_loadGameViewModel);
+        public void OpenLoadGameView()
+        {
+            _loadGameViewModel.GameViewModel = _gameViewModel;
+            (Parent as ShellViewModel).ActivateItem(_loadGameViewModel);
+        }
 
-        public void OpenNewGameView() => (Parent as ShellViewModel).ActivateItem(_gameViewModel);
+        public void OpenNewGameView()
+        {
+            _gameViewModel.NewGame();
+            (Parent as ShellViewModel).ActivateItem(_gameViewModel);
+        }
 
         public void OpenSettingsView() => (Parent as ShellViewModel).ActivateItem(_settingsViewModel);
 

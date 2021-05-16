@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonCrawlerGame.Classes;
 using DungeonCrawlerGame.Enums;
+using Newtonsoft.Json;
 
 namespace DungeonCrawlerGame.Models
 {
     public class PlayerEntity : BaseEntity
     {
+        [JsonConstructor]
+        protected PlayerEntity() : base()
+        {
+        }
+
         public PlayerEntity(int id, int x, int y) : base(id, x, y)
         {
             Type = EntityType.Player;
@@ -17,9 +24,9 @@ namespace DungeonCrawlerGame.Models
             Experience = 0;
         }
 
-        public WeaponType Weapon { get; private set; }
-        public int Experience { get; private set; }
-        public int Level { get; private set; }
+        [Save] public WeaponType Weapon { get; private set; }
+        [Save] public int Experience { get; private set; }
+        [Save] public int Level { get; private set; }
         public override int Attack { get => CalculateAttack(); }
 
         public void EquipWeapon(WeaponType weapon)

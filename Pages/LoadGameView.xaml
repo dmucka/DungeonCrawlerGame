@@ -30,19 +30,29 @@
                    HorizontalAlignment="Center"
                    Content="Slot 1"
                    FontSize="25" />
-            <Button>13.4.2021 13:45:22</Button>
+            <Button Command="{s:Action LoadGame}"
+                    CommandParameter="1"
+                    Content="{Binding SaveFileStatus[0]}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=Content, Converter={x:Static local:LoadGameConverters.SaveFileEmptyConverter}}" />
 
             <Label Margin="0,20,0,0"
                    HorizontalAlignment="Center"
                    Content="Slot 2"
                    FontSize="25" />
-            <Button IsEnabled="False">Empty</Button>
+            <Button Command="{s:Action LoadGame}"
+                    CommandParameter="2"
+                    Content="{Binding SaveFileStatus[1]}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=Content, Converter={x:Static local:LoadGameConverters.SaveFileEmptyConverter}}" />
 
             <Label Margin="0,20,0,0"
                    HorizontalAlignment="Center"
                    Content="Slot 3"
                    FontSize="25" />
-            <Button IsEnabled="False">Empty</Button>
+            <Button Command="{s:Action LoadGame}"
+                    CommandParameter="3"
+                    Content="{Binding SaveFileStatus[2]}"
+                    IsEnabled="{Binding RelativeSource={RelativeSource Self}, Path=Content, Converter={x:Static local:LoadGameConverters.SaveFileEmptyConverter}}" />
+
         </StackPanel>
 
         <Button Grid.Row="2"

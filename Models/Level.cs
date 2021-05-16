@@ -10,8 +10,7 @@ using DungeonCrawlerGame.Interfaces;
 using System.Windows.Media;
 using Point = System.Drawing.Point;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+using Newtonsoft.Json;
 
 namespace DungeonCrawlerGame.Models
 {
@@ -27,6 +26,7 @@ namespace DungeonCrawlerGame.Models
         public Level NextLevel { get; set; }
     }
 
+    [JsonObject]
     public class Level : PropertyChangedBase, IEnumerable<Tile>
     {
         public Level(int id)
@@ -44,15 +44,23 @@ namespace DungeonCrawlerGame.Models
         public event LevelExitEventHandler LevelExit;
         public event EventHandler GameOver;
 
-        public int Id { get; private set; }
+        [Save] public DateTime SaveTimestamp { get; set; }
+        [Save] public int Id { get; private set; }
         public int Height { get; private set; }
         public int Width { get; private set; }
         public Point SpawnPoint { get; private set; }
 
         public ObservableCollection<IRenderableElement> RenderQueue { get; private set; }
         public Tile[,] Map { get; }
-        public List<BaseEntity> Entities { get; }
+
+        [Save] 
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Objects)]
+        public List<BaseEntity> Entities { get; private set; }
+
+        [Save]
+        [JsonProperty(IsReference = true)] 
         public PlayerEntity Player { get; private set; }
+
         public Func<PlayerEntity, Level> NextLevelFactory { get; private set; }
 
         public Level Render()
@@ -137,7 +145,7 @@ namespace DungeonCrawlerGame.Models
             renderedEntity.Update(renderX, renderY, entity.Health);
         }
 
-        public bool MovePlayer(SideType side, int units) 
+        public bool MovePlayer(SideType side, int units)
         {
             var movement = MoveEntity(Player, side, units);
 
@@ -397,6 +405,9 @@ namespace DungeonCrawlerGame.Models
 
         public Level AddPlayer(PlayerEntity player)
         {
+            if (player == null)
+                return this;
+
             player.Teleport(SpawnPoint.X, SpawnPoint.Y);
             Player = player;
             Entities.Add(Player);

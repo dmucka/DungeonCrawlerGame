@@ -31,7 +31,10 @@ namespace DungeonCrawlerGame.Classes
             {
                 var json = reader.ReadToEnd();
                 var jsonObj = JObject.Parse(json);
-                var deserialized = JsonConvert.DeserializeObject<T>(json);
+                var deserialized = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings()
+                {
+                    ContractResolver = new JsonStorageResolver()
+                });
 
                 foreach (var property in typeof(T).GetProperties())
                 {
@@ -50,7 +53,8 @@ namespace DungeonCrawlerGame.Classes
             var json = JsonConvert.SerializeObject(obj, Formatting.Indented, new JsonSerializerSettings
             {
                 ContractResolver = new JsonStorageResolver(),
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
 
             using (TextWriter writer = new StreamWriter(filename))
@@ -63,7 +67,6 @@ namespace DungeonCrawlerGame.Classes
         /// Loads the JSON file and returns the property's value
         /// </summary>
         public virtual T GetSavedPropertyValue<T>(string filename, string propertyName)
-            where T : class
         {
             using (TextReader reader = new StreamReader(filename))
             {
@@ -98,9 +101,10 @@ namespace DungeonCrawlerGame.Classes
 
                 var property = member.DeclaringType.GetRuntimeProperty(member.Name);
                 if (property == null || property.GetCustomAttribute<SaveAttribute>() == null)
-                {
                     prop.Ignored = true;
-                }
+
+                if (property.GetSetMethod(true) != null)
+                    prop.Writable = true;
 
                 return prop;
             }

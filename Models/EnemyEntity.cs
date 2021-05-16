@@ -1,4 +1,5 @@
 ﻿using DungeonCrawlerGame.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace DungeonCrawlerGame.Models
 {
     public class EnemyEntity : BaseEntity
     {
+        [JsonConstructor]
+        protected EnemyEntity() : base()
+        {
+        }
+
         public EnemyEntity(int id, int x, int y, EntityType enemyType) : base(id, x, y)
         {
             Type = enemyType;

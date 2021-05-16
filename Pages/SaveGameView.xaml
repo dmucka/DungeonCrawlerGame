@@ -30,19 +30,25 @@
                    HorizontalAlignment="Center"
                    Content="Slot 1"
                    FontSize="25" />
-            <Button>13.4.2021 13:45:22</Button>
+            <Button Command="{s:Action SaveGame}"
+                    CommandParameter="1"
+                    Content="{Binding SaveFileStatus[0]}" />
 
             <Label Margin="0,20,0,0"
                    HorizontalAlignment="Center"
                    Content="Slot 2"
                    FontSize="25" />
-            <Button>Empty</Button>
+            <Button Command="{s:Action SaveGame}"
+                    CommandParameter="2"
+                    Content="{Binding SaveFileStatus[1]}" />
 
             <Label Margin="0,20,0,0"
                    HorizontalAlignment="Center"
                    Content="Slot 3"
                    FontSize="25" />
-            <Button>Empty</Button>
+            <Button Command="{s:Action SaveGame}"
+                    CommandParameter="3"
+                    Content="{Binding SaveFileStatus[2]}" />
         </StackPanel>
 
         <Button Grid.Row="2"

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonCrawlerGame.Classes;
+using Newtonsoft.Json;
 
 namespace DungeonCrawlerGame.Models
 {
@@ -15,27 +17,30 @@ namespace DungeonCrawlerGame.Models
         {
             Width = 80;
             Height = 80;
-            Type = EntityType.None;
-            Health = 100;
-            State = EntityState.Alive;
         }
 
         public BaseEntity(int id, int x, int y) : this()
         {
+            State = EntityState.Alive;
+            Type = EntityType.None;
+            Health = 100;
+
             Id = id;
             X = x;
             Y = y;
         }
 
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
+
+        [Save] public int X { get; protected set; }
+        [Save] public int Y { get; protected set; }
+
         public int Width { get; protected set; }
         public int Height { get; protected set; }
 
-        public int Id { get; protected set; }
-        public EntityState State { get; protected set; }
-        public EntityType Type { get; protected set; }
-        public int Health { get; protected set; }
+        [Save] public int Id { get; protected set; }
+        [Save] public EntityState State { get; protected set; }
+        [Save] public EntityType Type { get; protected set; }
+        [Save] public int Health { get; protected set; }
         public abstract int Attack { get; }
 
         public void Teleport(int x, int y)
