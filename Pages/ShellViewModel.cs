@@ -80,8 +80,8 @@ namespace DungeonCrawlerGame.Pages
             }
             else if (e.Key == Settings.AttackKey)
             {
-                level.Tick();
                 level.TryAttack(gameViewModel.CurrentLevel.Player);
+                level.Tick();
             }
 
             // game over

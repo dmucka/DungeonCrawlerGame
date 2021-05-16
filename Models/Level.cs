@@ -11,6 +11,7 @@ using System.Windows.Media;
 using Point = System.Drawing.Point;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Windows;
 
 namespace DungeonCrawlerGame.Models
 {
@@ -53,12 +54,12 @@ namespace DungeonCrawlerGame.Models
         public ObservableCollection<IRenderableElement> RenderQueue { get; private set; }
         public Tile[,] Map { get; }
 
-        [Save] 
+        [Save]
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Objects)]
         public List<BaseEntity> Entities { get; private set; }
 
         [Save]
-        [JsonProperty(IsReference = true)] 
+        [JsonProperty(IsReference = true)]
         public PlayerEntity Player { get; private set; }
 
         public Func<PlayerEntity, Level> NextLevelFactory { get; private set; }
@@ -246,23 +247,43 @@ namespace DungeonCrawlerGame.Models
                 }
             }
 
-            var upperLeftX = Math.Clamp(attacker.X - range, 0, Height);
-            var upperLeftY = Math.Clamp(attacker.Y - range, 0, Width);
-            var lowerRightX = Math.Clamp(attacker.X + range, 0, Height);
-            var lowerRightY = Math.Clamp(attacker.Y + range, 0, Width);
+            var upperLeftX = Math.Clamp(attacker.X - range, 0, Height - 1);
+            var upperLeftY = Math.Clamp(attacker.Y - range, 0, Width - 1);
+            var lowerRightX = Math.Clamp(attacker.X + range, 0, Height - 1);
+            var lowerRightY = Math.Clamp(attacker.Y + range, 0, Width - 1);
 
-            // todo: implement path finding algorithm to fix shooting through walls
+            // BFS algorithm to check if the target is visible
 
-            foreach (var (X, Y) in new MatrixEnumerator(upperLeftX..lowerRightX, upperLeftY..lowerRightY))
+            var visitedMatrix = new bool[Height, Width];
+            var queue = new Queue<(int X, int Y)>();
+
+            queue.Enqueue((attacker.X, attacker.Y));
+            visitedMatrix[attacker.X, attacker.Y] = true;
+
+            while (queue.Any())
             {
-                var candidate = Entities.FirstOrDefault(x => x.X == X && x.Y == Y);
+                var cell = queue.Dequeue();
 
-                if (attacker is PlayerEntity && candidate != null && candidate != attacker)
+                // the target is visible
+                var candidate = Entities.FirstOrDefault(x => x.X == cell.X && x.Y == cell.Y);
+                if (candidate != null && candidate != attacker && (attacker is EnemyEntity && candidate is not EnemyEntity || attacker is PlayerEntity))
                     return candidate;
 
-                if (attacker is EnemyEntity && candidate != null && candidate != attacker && candidate is PlayerEntity)
-                    return candidate;
+                foreach (var (X, Y) in new[] { (-1, 0), (0, 1), (1, 0), (0, -1) })
+                {
+                    var nextX = cell.X + X;
+                    var nextY = cell.Y + Y;
 
+                    if (nextX >= upperLeftX && nextY >= upperLeftY
+                        && nextX <= lowerRightX && nextY <= lowerRightY
+                        && !visitedMatrix[nextX, nextY] 
+                        && Map[nextX, nextY].Type != TileType.Wall
+                        && Map[nextX, nextY].Type != TileType.Door)
+                    {
+                        queue.Enqueue((nextX, nextY));
+                        visitedMatrix[nextX, nextY] = true;
+                    }
+                }
             }
 
             return null;

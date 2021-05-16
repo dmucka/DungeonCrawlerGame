@@ -25,6 +25,7 @@ namespace DungeonCrawlerGame.Pages
         {
             _levelService.CurrentLevel = level;
             CurrentLevel = _levelService.CurrentLevel;
+
             CurrentLevel.LevelExit += CurrentLevel_LevelExit;
             CurrentLevel.GameOver += CurrentLevel_GameOver;
         }
