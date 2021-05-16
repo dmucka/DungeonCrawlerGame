@@ -47,7 +47,7 @@
     </Resource>
     <Resource Include="Assets\wall1.png" />
     <Resource Include="Shaders\OverlayEffect.ps">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
@@ -65,4 +65,8 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64\fxc.exe&quot; /T ps_2_0 /Fo $(ProjectDir)\Shaders\OverlayEffect.ps $(ProjectDir)\Shaders\OverlayEffect.fx" />
+  </Target>
 </Project>

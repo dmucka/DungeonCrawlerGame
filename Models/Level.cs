@@ -112,7 +112,7 @@ namespace DungeonCrawlerGame.Models
                 } while (!randomMove);
 
                 // enemy attacks
-                var attack = random.Next(0, 5);
+                var attack = random.Next(0, 3);
                 if (attack == 0)
                 {
                     TryAttack(entity);
@@ -233,7 +233,7 @@ namespace DungeonCrawlerGame.Models
                         range = 2;
                         break;
                     case WeaponType.Bow:
-                        range = 4;
+                        range = 3;
                         break;
                 }
             }
@@ -242,6 +242,8 @@ namespace DungeonCrawlerGame.Models
             var upperLeftY = Math.Clamp(attacker.Y - range, 0, Width);
             var lowerRightX = Math.Clamp(attacker.X + range, 0, Height);
             var lowerRightY = Math.Clamp(attacker.Y + range, 0, Width);
+
+            // todo: implement path finding algorithm to fix shooting through walls
 
             foreach (var (X, Y) in new MatrixEnumerator(upperLeftX..lowerRightX, upperLeftY..lowerRightY))
             {
