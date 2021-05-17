@@ -255,34 +255,35 @@ namespace DungeonCrawlerGame.Models
             // BFS algorithm to check if the target is visible
 
             var visitedMatrix = new bool[Height, Width];
-            var queue = new Queue<(int X, int Y)>();
+            var queue = new Queue<(Point Cell, Point Move)>();
 
-            queue.Enqueue((attacker.X, attacker.Y));
             visitedMatrix[attacker.X, attacker.Y] = true;
+
+            foreach (var (X, Y) in new[] { (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1) })
+            {
+                queue.Enqueue((new Point(attacker.X, attacker.Y), new Point(X, Y)));
+            }
 
             while (queue.Any())
             {
-                var cell = queue.Dequeue();
+                var (Cell, Move) = queue.Dequeue();
 
                 // the target is visible
-                var candidate = Entities.FirstOrDefault(x => x.X == cell.X && x.Y == cell.Y);
+                var candidate = Entities.FirstOrDefault(x => x.X == Cell.X && x.Y == Cell.Y);
                 if (candidate != null && candidate != attacker && (attacker is EnemyEntity && candidate is not EnemyEntity || attacker is PlayerEntity))
                     return candidate;
 
-                foreach (var (X, Y) in new[] { (-1, 0), (0, 1), (1, 0), (0, -1) })
-                {
-                    var nextX = cell.X + X;
-                    var nextY = cell.Y + Y;
+                var nextX = Move.X + Cell.X;
+                var nextY = Move.Y + Cell.Y;
 
-                    if (nextX >= upperLeftX && nextY >= upperLeftY
-                        && nextX <= lowerRightX && nextY <= lowerRightY
-                        && !visitedMatrix[nextX, nextY] 
-                        && Map[nextX, nextY].Type != TileType.Wall
-                        && Map[nextX, nextY].Type != TileType.Door)
-                    {
-                        queue.Enqueue((nextX, nextY));
-                        visitedMatrix[nextX, nextY] = true;
-                    }
+                if (nextX >= upperLeftX && nextY >= upperLeftY
+                    && nextX <= lowerRightX && nextY <= lowerRightY
+                    && !visitedMatrix[nextX, nextY]
+                    && Map[nextX, nextY].Type != TileType.Wall
+                    && Map[nextX, nextY].Type != TileType.Door)
+                {
+                    queue.Enqueue((new Point(nextX, nextY), Move));
+                    visitedMatrix[nextX, nextY] = true;
                 }
             }
 
