@@ -76,11 +76,13 @@ namespace DungeonCrawlerGame.Models
 
                 var tileSide = TileSideType.None;
 
+                // clamp
                 var prevX = Math.Max(0, tile.X - 1);
                 var prevY = Math.Max(0, tile.Y - 1);
                 var nextX = Math.Min(Height - 1, tile.X + 1);
                 var nextY = Math.Min(Width - 1, tile.Y + 1);
 
+                // isometric view and wall/doors connecting
                 if (tile.Type == TileType.Wall)
                 {
                     if (tile.X < Height / 2 && tile.Y < Width / 2)
@@ -143,8 +145,8 @@ namespace DungeonCrawlerGame.Models
             // render player and enemies
             foreach (var entity in Entities)
             {
-                double renderX = entity.X * 100 - 10;
-                double renderY = entity.Y * 100 + (entity.Width / 8);
+                double renderX = entity.X * 100 - 15;
+                double renderY = entity.Y * 100 + 7;
                 temp.Add(new EntityView(entity.Id, renderX, renderY, entity.Height, entity.Width, entity.Type, entity.Health));
             }
 
@@ -204,8 +206,8 @@ namespace DungeonCrawlerGame.Models
 
         public void UpdateEntity(BaseEntity entity)
         {
-            double renderX = entity.X * 100 - 10;
-            double renderY = entity.Y * 100 + (entity.Width / 8);
+            double renderX = entity.X * 100 - 15;
+            double renderY = entity.Y * 100 + 7;
             var renderedEntity = (EntityView)RenderQueue.First(x => x.Id == entity.Id);
             renderedEntity.Update(renderX, renderY, entity.Health);
         }

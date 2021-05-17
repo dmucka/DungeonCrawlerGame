@@ -14,7 +14,7 @@ namespace DungeonCrawlerGame.Services
 
         public SettingsService()
         {
-            IsFullscreen = false;
+            IsFullscreen = true;
             UpKey = Key.W;
             DownKey = Key.S;
             LeftKey = Key.A;
