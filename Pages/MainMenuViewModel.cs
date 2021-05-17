@@ -32,6 +32,12 @@ namespace DungeonCrawlerGame.Pages
             (Parent as ShellViewModel).ActivateItem(_gameViewModel);
         }
 
+        public void OpenDebugGame()
+        {
+            _gameViewModel.DebugGame();
+            (Parent as ShellViewModel).ActivateItem(_gameViewModel);
+        }
+
         public void OpenSettingsView() => (Parent as ShellViewModel).ActivateItem(_settingsViewModel);
 
         public void Exit() => Application.Current.Shutdown();

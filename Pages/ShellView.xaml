@@ -20,6 +20,7 @@
                     s:View.ActionTarget="{Binding Settings}"
                     Command="{s:Action ToggleFullscreen}" />
         <KeyBinding Key="Esc" Command="{s:Action OnEscapePressed}" />
+        <KeyBinding Key="F5" Command="{s:Action OnF5Pressed}" />
     </Window.InputBindings>
 
     <Border MinWidth="800"

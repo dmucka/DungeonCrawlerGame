@@ -51,6 +51,14 @@ namespace DungeonCrawlerGame.Pages
             }
         }
 
+        public void OnF5Pressed()
+        {
+            if (ActiveItem is MainMenuViewModel mainMenu)
+            {
+                mainMenu.OpenDebugGame();
+            }
+        }
+
         public void OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (ActiveItem is not GameViewModel gameViewModel)

@@ -126,9 +126,25 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetDebugLevel(PlayerEntity player)
+        public Level GetDebugLevel1(PlayerEntity player = null)
         {
-            var level = new Level(1000)
+            if (player != null)
+            {
+                return new Level(2000)
+                .SetNextLevel(GetDebugLevel2)
+                .SetEmptyLevel()
+                .SetWallRing(0)
+                .SetSpawnPoint(3, 5)
+                .SetWall(0..5, 4)
+                .SetDoor(4, 4)
+                .SetStairs(1, 6)
+                .AddPlayer(player)
+                .AddEnemy(1..3, 1..3, EntityType.Slime)
+                .Render();
+            }
+
+            var level = new Level(2000)
+                .SetNextLevel(GetDebugLevel2)
                 .SetEmptyLevel()
                 .SetWallRing(0)
                 .SetSpawnPoint(3, 5)
@@ -142,10 +158,10 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetDebugRingLevel1(PlayerEntity player = null)
+        public Level GetDebugLevel2(PlayerEntity player)
         {
             var level = new Level(2001)
-                .SetNextLevel(GetDebugRingLevel2)
+                .SetNextLevel(GetDebugLevel3)
                 .SetEmptyLevel()
                 .SetWallRing(1)
                 .SetDoor(1, 2)
@@ -156,18 +172,18 @@ namespace DungeonCrawlerGame.Services
                 .SetDoor(2, 6)
                 .SetDoor(3, 1)
                 .SetDoor(3, 6)
-                .SetStairs(3,3)
+                .SetStairs(3, 3)
                 .SetSpawnPoint(3, 5)
-                .AddPlayer()
+                .AddPlayer(player)
                 .Render();
 
             return level;
         }
 
-        public Level GetDebugRingLevel2(PlayerEntity player)
+        public Level GetDebugLevel3(PlayerEntity player)
         {
             var level = new Level(2002)
-                .SetNextLevel(GetDebugRingLevel3)
+                .SetNextLevel(GetDebugLevel4)
                 .SetEmptyLevel()
                 .SetWall(0..2, 0..2).SetFloor(1, 1)
                 .SetWall(0..2, 5..7).SetFloor(1, 6)
@@ -181,10 +197,10 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetDebugRingLevel3(PlayerEntity player)
+        public Level GetDebugLevel4(PlayerEntity player)
         {
             var level = new Level(2003)
-                .SetNextLevel(GetDebugRingLevel1)
+                .SetNextLevel(GetDebugLevel1)
                 .SetEmptyLevel()
                 .SetWall(0..5, 1..6).SetFloor(1..4, 2..5)
                 .SetDoor(2, 1)
