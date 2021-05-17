@@ -9,43 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\door.png" />
-    <None Remove="Assets\door1.png" />
-    <None Remove="Assets\floor.png" />
     <None Remove="Assets\mainmenu_background.gif" />
     <None Remove="Assets\OverlayEffect.fx" />
     <None Remove="Assets\player.png" />
+    <None Remove="Assets\sheet.png" />
     <None Remove="Assets\slime.png" />
-    <None Remove="Assets\stairs.png" />
     <None Remove="Assets\ui.png" />
-    <None Remove="Assets\wall.png" />
-    <None Remove="Assets\wall1.png" />
     <None Remove="Shaders\OverlayEffect.ps" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\player.png" />
-    <Resource Include="Assets\door.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\door1.png" />
-    <Resource Include="Assets\floor.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\mainmenu_background.gif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\slime.png" />
-    <Resource Include="Assets\stairs.png">
+    <Resource Include="Assets\sheet.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\slime.png" />
     <Resource Include="Assets\ui.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\wall.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\wall1.png" />
     <Resource Include="Shaders\OverlayEffect.ps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

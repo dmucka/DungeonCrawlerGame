@@ -126,7 +126,7 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetDebugLevel()
+        public Level GetDebugLevel(PlayerEntity player)
         {
             var level = new Level(1000)
                 .SetEmptyLevel()
@@ -142,13 +142,58 @@ namespace DungeonCrawlerGame.Services
             return level;
         }
 
-        public Level GetDebugRingLevel()
+        public Level GetDebugRingLevel1(PlayerEntity player = null)
         {
-            var level = new Level(1001)
+            var level = new Level(2001)
+                .SetNextLevel(GetDebugRingLevel2)
                 .SetEmptyLevel()
                 .SetWallRing(1)
+                .SetDoor(1, 2)
+                .SetDoor(4, 2)
+                .SetDoor(1, 5)
+                .SetDoor(4, 5)
+                .SetDoor(2, 1)
+                .SetDoor(2, 6)
+                .SetDoor(3, 1)
+                .SetDoor(3, 6)
+                .SetStairs(3,3)
                 .SetSpawnPoint(3, 5)
                 .AddPlayer()
+                .Render();
+
+            return level;
+        }
+
+        public Level GetDebugRingLevel2(PlayerEntity player)
+        {
+            var level = new Level(2002)
+                .SetNextLevel(GetDebugRingLevel3)
+                .SetEmptyLevel()
+                .SetWall(0..2, 0..2).SetFloor(1, 1)
+                .SetWall(0..2, 5..7).SetFloor(1, 6)
+                .SetWall(3..5, 0..2).SetFloor(4, 1)
+                .SetWall(3..5, 5..7).SetFloor(4, 6)
+                .SetStairs(0, 4)
+                .SetSpawnPoint(3, 3)
+                .AddPlayer(player)
+                .Render();
+
+            return level;
+        }
+
+        public Level GetDebugRingLevel3(PlayerEntity player)
+        {
+            var level = new Level(2003)
+                .SetNextLevel(GetDebugRingLevel1)
+                .SetEmptyLevel()
+                .SetWall(0..5, 1..6).SetFloor(1..4, 2..5)
+                .SetDoor(2, 1)
+                .SetDoor(2, 6)
+                .SetDoor(4, 1)
+                .SetDoor(4, 6)
+                .SetStairs(1, 5)
+                .SetSpawnPoint(3, 3)
+                .AddPlayer(player)
                 .Render();
 
             return level;

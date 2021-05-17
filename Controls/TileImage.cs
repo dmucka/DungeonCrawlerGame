@@ -13,19 +13,16 @@ namespace DungeonCrawlerGame.Controls
 {
     public class TileImage : RenderableImage
     {
-        private static readonly BitmapSource _wallBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/wall1.png"));
-        private static readonly BitmapSource _doorBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/door1.png"));
-        private static readonly BitmapSource _floorBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/floor.png"));
-        private static readonly BitmapSource _stairsBitmap = new BitmapImage(new Uri("pack://application:,,,/DungeonCrawlerGame;component/Assets/stairs.png"));
-
         public TileImage() : base()
         {
         }
 
-        public TileImage(int id, double x, double y, double height, double width, TileType type) : base(id, x, y, height, width)
+        public TileImage(int id, double x, double y, double height, double width, TileType type, TileSideType side) : base(id, x, y, height, width)
         {
+            Side = side;
             Type = type;
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+            // Stretch = Stretch.UniformToFill;
         }
 
         public TileType Type
@@ -33,6 +30,16 @@ namespace DungeonCrawlerGame.Controls
             get { return (TileType)GetValue(TypeProperty); }
             set { SetValue(TypeProperty, value); }
         }
+
+        public TileSideType Side
+        {
+            get { return (TileSideType)GetValue(SideProperty); }
+            set { SetValue(SideProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Side.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SideProperty =
+            DependencyProperty.Register("Side", typeof(TileSideType), typeof(TileImage), new PropertyMetadata(TileSideType.None, new PropertyChangedCallback(OnSideSet)));
 
         // Using a DependencyProperty as the backing store for Type.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TypeProperty =
@@ -43,28 +50,86 @@ namespace DungeonCrawlerGame.Controls
             var type = e.NewValue as TileType?;
             if (type != null && d is TileImage sender)
             {
-                sender.SetTexture(type.Value);
+                sender.SetTexture(type.Value, sender.Side);
             }
         }
 
-        public void SetTexture(TileType type)
+        private static void OnSideSet(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var side = e.NewValue as TileSideType?;
+            if (side != null && d is TileImage sender)
+            {
+                sender.SetTexture(sender.Type, side.Value);
+            }
+        }
+
+        public void SetTexture(TileType type, TileSideType side)
         {
             switch (type)
             {
-                case TileType.None:
-                    Source = null;
-                    break;
                 case TileType.Floor:
-                    Source = _floorBitmap;
+                    Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(128, 32, 16, 16)).Source;
                     break;
                 case TileType.Wall:
-                    Source = _wallBitmap;
+                    switch (side)
+                    {
+                        case TileSideType.Up:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(0, 48, 16, 16)).Source;
+                            break;
+                        case TileSideType.Down:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(32, 64, 16, 16)).Source;
+                            break;
+                        case TileSideType.Left:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(0, 96, 16, 16)).Source;
+                            break;
+                        case TileSideType.Right:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(16, 96, 16, 16)).Source;
+                            break;
+                        case TileSideType.OuterCornerUpLeft:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(48, 0, 16, 16)).Source;
+                            break;
+                        case TileSideType.OuterCornerUpRight:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(64, 0, 16, 16)).Source;
+                            break;
+                        case TileSideType.OuterCornerDownLeft:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(48, 16, 16, 16)).Source;
+                            break;
+                        case TileSideType.OuterCornerDownRight:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(64, 16, 16, 16)).Source;
+                            break;
+                        case TileSideType.InnerCornerUpLeft:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(32, 32, 16, 16)).Source;
+                            break;
+                        case TileSideType.InnerCornerUpRight:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(0, 32, 16, 16)).Source;
+                            break;
+                        case TileSideType.InnerCornerDownLeft:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(32, 0, 16, 16)).Source;
+                            break;
+                        case TileSideType.InnerCornerDownRight:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(0, 0, 16, 16)).Source;
+                            break;
+                    }
                     break;
                 case TileType.Door:
-                    Source = _doorBitmap;
+                    switch (side)
+                    {
+                        case TileSideType.Up:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(32, 128, 16, 16)).Source;
+                            break;
+                        case TileSideType.Down:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(128, 176, 16, 16)).Source;
+                            break;
+                        case TileSideType.Left:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(48, 192, 16, 16)).Source;
+                            break;
+                        case TileSideType.Right:
+                            Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(32, 176, 16, 16)).Source;
+                            break;
+                    }
                     break;
                 case TileType.Stairs:
-                    Source = _stairsBitmap;
+                    Source = new MappedImage(MapSourceType.Tileset, new Int32Rect(80, 64, 16, 16)).Source;
                     break;
             }
         }

@@ -32,7 +32,8 @@ namespace DungeonCrawlerGame.Pages
 
         public void NewGame()
         {
-            LoadGame(_levelService.GetLevel1());
+            //LoadGame(_levelService.GetLevel1());
+            LoadGame(_levelService.GetDebugRingLevel1().SetDebugText());
         }
 
         private void CurrentLevel_GameOver(object sender, System.EventArgs e)

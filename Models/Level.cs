@@ -73,7 +73,71 @@ namespace DungeonCrawlerGame.Models
             {
                 double renderX = tile.X * tile.Height;
                 double renderY = tile.Y * tile.Width;
-                temp.Add(new TileImage(tile.Id, renderX, renderY, tile.Height, tile.Width, tile.Type));
+
+                var tileSide = TileSideType.None;
+
+                var prevX = Math.Max(0, tile.X - 1);
+                var prevY = Math.Max(0, tile.Y - 1);
+                var nextX = Math.Min(Height - 1, tile.X + 1);
+                var nextY = Math.Min(Width - 1, tile.Y + 1);
+
+                if (tile.Type == TileType.Wall)
+                {
+                    if (tile.X < Height / 2 && tile.Y < Width / 2)
+                    {
+                        if ((Map[tile.X, nextY].Type == TileType.Wall || Map[tile.X, nextY].Type == TileType.Door) && (Map[nextX, tile.Y].Type == TileType.Wall || Map[nextX, tile.Y].Type == TileType.Door))
+                            tileSide = TileSideType.OuterCornerUpLeft;
+                        else if (tile.X != 0 && tile.Y != 0 && tile.X != Height - 1 && tile.Y != Width - 1 && (Map[prevX, tile.Y].Type == TileType.Wall || Map[prevX, tile.Y].Type == TileType.Door) && (Map[tile.X, prevY].Type == TileType.Wall || Map[tile.X, prevY].Type == TileType.Door))
+                            tileSide = TileSideType.InnerCornerUpLeft;
+                    }
+                    else if (tile.X < Height / 2 && tile.Y >= Width / 2)
+                    {
+                        if ((Map[tile.X, prevY].Type == TileType.Wall || Map[tile.X, prevY].Type == TileType.Door) && (Map[nextX, tile.Y].Type == TileType.Wall || Map[nextX, tile.Y].Type == TileType.Door))
+                            tileSide = TileSideType.OuterCornerUpRight;
+                        else if (tile.X != 0 && tile.Y != 0 && tile.X != Height - 1 && tile.Y != Width - 1 && (Map[prevX, tile.Y].Type == TileType.Wall || Map[prevX, tile.Y].Type == TileType.Door) && (Map[tile.X, nextY].Type == TileType.Wall || Map[tile.X, nextY].Type == TileType.Door))
+                            tileSide = TileSideType.InnerCornerUpRight;
+                    }
+                    else if (tile.X >= Height / 2 && tile.Y < Width / 2)
+                    {
+                        if ((Map[prevX, tile.Y].Type == TileType.Wall || Map[prevX, tile.Y].Type == TileType.Door) && (Map[tile.X, nextY].Type == TileType.Wall || Map[tile.X, nextY].Type == TileType.Door))
+                            tileSide = TileSideType.OuterCornerDownLeft;
+                        else if (tile.X != 0 && tile.Y != 0 && tile.X != Height - 1 && tile.Y != Width - 1 && (Map[tile.X, prevY].Type == TileType.Wall || Map[tile.X, prevY].Type == TileType.Door) && (Map[nextX, tile.Y].Type == TileType.Wall || Map[nextX, tile.Y].Type == TileType.Door))
+                            tileSide = TileSideType.InnerCornerDownLeft;
+                    }
+                    else if (tile.X >= Height / 2 && tile.Y >= Width / 2)
+                    {
+                        if ((Map[tile.X, prevY].Type == TileType.Wall || Map[tile.X, prevY].Type == TileType.Door) && (Map[prevX, tile.Y].Type == TileType.Wall || Map[prevX, tile.Y].Type == TileType.Door))
+                            tileSide = TileSideType.OuterCornerDownRight;
+                        else if (tile.X != 0 && tile.Y != 0 && tile.X != Height - 1 && tile.Y != Width - 1 && (Map[nextX, tile.Y].Type == TileType.Wall || Map[nextX, tile.Y].Type == TileType.Door) && (Map[tile.X, nextY].Type == TileType.Wall || Map[tile.X, nextY].Type == TileType.Door))
+                            tileSide = TileSideType.InnerCornerDownRight;
+                    }
+
+                    if (tileSide == TileSideType.None)
+                    {
+                        if (tile.X < Height / 2 && (Map[nextX, tile.Y].Type != TileType.Wall || Map[prevX, tile.Y].Type != TileType.Wall) && (Map[nextX, tile.Y].Type != TileType.Door && Map[prevX, tile.Y].Type != TileType.Door))
+                            tileSide = TileSideType.Up;
+                        else if (tile.X >= Height / 2 && (Map[nextX, tile.Y].Type != TileType.Wall || Map[prevX, tile.Y].Type != TileType.Wall) && (Map[nextX, tile.Y].Type != TileType.Door && Map[prevX, tile.Y].Type != TileType.Door))
+                            tileSide = TileSideType.Down;
+                        else if (tile.Y < Width / 2 && (Map[tile.X, nextY].Type != TileType.Wall || Map[tile.X, prevY].Type != TileType.Wall))
+                            tileSide = TileSideType.Left;
+                        else if (tile.Y >= Width / 2 && (Map[tile.X, nextY].Type != TileType.Wall || Map[tile.X, prevY].Type != TileType.Wall))
+                            tileSide = TileSideType.Right;
+                    }
+                }
+                else if (tile.Type == TileType.Door)
+                {
+                    if (tile.X < Height / 2 && (Map[nextX, tile.Y].Type != TileType.Wall || Map[prevX, tile.Y].Type != TileType.Wall) && Map[nextX, tile.Y].Type != TileType.Door)
+                        tileSide = TileSideType.Up;
+                    else if (tile.X >= Height / 2 && (Map[nextX, tile.Y].Type != TileType.Wall || Map[prevX, tile.Y].Type != TileType.Wall) && Map[prevX, tile.Y].Type != TileType.Door)
+                        tileSide = TileSideType.Down;
+                    else if (tile.Y < Width / 2 && (Map[tile.X, nextY].Type != TileType.Wall || Map[tile.X, prevY].Type != TileType.Wall) && Map[tile.X, prevY].Type != TileType.Door)
+                        tileSide = TileSideType.Left;
+                    else if (tile.Y >= Width / 2 && (Map[tile.X, nextY].Type != TileType.Wall || Map[tile.X, prevY].Type != TileType.Wall) && Map[tile.X, nextY].Type != TileType.Door)
+                        tileSide = TileSideType.Right;
+                }
+
+
+                temp.Add(new TileImage(tile.Id, renderX, renderY, tile.Height, tile.Width, tile.Type, tileSide));
             }
 
             // render player and enemies
