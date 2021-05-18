@@ -165,7 +165,7 @@ namespace DungeonCrawlerGame.Models
         {
             var random = new Random();
 
-            foreach (var entity in Entities.Where(x => x.Type != EntityType.Player).ToList())
+            foreach (EnemyEntity entity in Entities.Where(x => x.Type != EntityType.Player).ToList())
             {
                 if (entity.State != EntityState.Alive)
                     continue;
@@ -187,8 +187,8 @@ namespace DungeonCrawlerGame.Models
                 } while (!randomMove);
 
                 // enemy attacks
-                var attack = random.Next(0, 3);
-                if (attack == 0)
+                var attack = (int)(entity.AttackChance * 100) > (int)(random.NextDouble() * 100);
+                if (attack)
                 {
                     TryAttack(entity);
                 }

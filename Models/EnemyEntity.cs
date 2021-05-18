@@ -20,11 +20,12 @@ namespace DungeonCrawlerGame.Models
             Type = enemyType;
 
             if (enemyType == EntityType.BossSlime)
-                Health = 200;
+                Health = 250;
         }
 
-        public int DropExperience { get => CalculateDropExperience(); }
-        public override int Attack { get => CalculateAttack(); }
+        public int DropExperience => CalculateDropExperience();
+        public override int Attack => CalculateAttack();
+        public double AttackChance => CalculateAttackChance();
 
         private int CalculateDropExperience()
         {
@@ -32,9 +33,11 @@ namespace DungeonCrawlerGame.Models
             {
                 case EntityType.Slime:
                     return 3;
-                default:
-                    return 0;
+                case EntityType.BossSlime:
+                    return 10;
             }
+
+            return 0;
         }
 
         private int CalculateAttack()
@@ -44,10 +47,23 @@ namespace DungeonCrawlerGame.Models
                 case EntityType.Slime:
                     return 5;
                 case EntityType.BossSlime:
-                    return 15;
-                default:
-                    return 0;
+                    return 25;
             }
+
+            return 0;
+        }
+
+        private double CalculateAttackChance()
+        {
+            switch (Type)
+            {
+                case EntityType.Slime:
+                    return 0.25;
+                case EntityType.BossSlime:
+                    return 0.75;
+            }
+
+            return 0;
         }
     }
 }
